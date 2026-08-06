@@ -7,11 +7,17 @@ import { projects } from "@/lib/content";
 import ProjectTabs from "@/components/sections/projects/ProjectTabs";
 import ProjectDetails from "@/components/sections/projects/ProjectDetails";
 import ProjectImageStack from "@/components/sections/projects/ProjectImageStack";
-
+const featuredProjects = projects.filter(
+  (project) => project.id !== "portfolio",
+);
 export default function Projects() {
   const reduce = useReducedMotion();
-  const [activeId, setActiveId] = React.useState(projects[0]!.id);
-  const active = projects.find((p) => p.id === activeId) ?? projects[0]!;
+  const [activeId, setActiveId] = React.useState(
+  featuredProjects[0]!.id,
+);
+  const active =
+  featuredProjects.find((project) => project.id === activeId) ??
+  featuredProjects[0]!;
 
   const enter = reduce
     ? { opacity: 1 }
@@ -34,7 +40,7 @@ export default function Projects() {
 
       <Reveal>
         <ProjectTabs
-          projects={projects}
+          projects={featuredProjects}
           activeId={activeId}
           onSelect={setActiveId}
         />
