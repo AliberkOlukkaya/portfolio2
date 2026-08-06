@@ -1,0 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #07060f;
+  --color-accent: #9d78ff;
+}
+
+* {
+  border-color: theme("colors.line");
+}
+
+/* Smooth palette transitions across the whole site */
+a,
+button,
+input,
+textarea,
+select,
+.transition-colors,
+[class*="hover:"] {
+  transition-property: color, background-color, border-color, fill, stroke,
+    box-shadow, opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 400ms;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+body {
+  background-color: var(--color-bg);
+  color: theme("colors.ink.DEFAULT");
+  /* DM Sans is the site-wide body typeface — keeps every section's copy
+     consistent instead of some inheriting the default Inter fallback. */
+  font-family: theme("fontFamily.body");
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Custom selection */
+::selection {
+  background: rgba(214, 79, 240, 0.32);
+  color: #fff;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #07060f;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6d40e0, #c026d3);
+  border-radius: 8px;
+  border: 2px solid #07060f;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #9d78ff, #e879f9);
+}
+
+/* Gradient text utility — liquid-glass flow */
+.text-gradient {
+  background: linear-gradient(
+    120deg,
+    #fda4af 0%,
+    #e879f9 30%,
+    #9d78ff 60%,
+    #6366f1 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Black outline/contour for text — works on white and gradient text alike */
+.text-outline-black {
+  text-shadow:
+    -1.5px -1.5px 0 #000,
+    1.5px -1.5px 0 #000,
+    -1.5px 1.5px 0 #000,
+    1.5px 1.5px 0 #000,
+    0 0 2px rgba(0, 0, 0, 0.9),
+    0 2px 8px rgba(0, 0, 0, 0.55);
+}
+
+/* Grid pattern overlay */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(157, 120, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(157, 120, 255, 0.06) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Focus visibility */
+:focus-visible {
+  outline: 2px solid #b79bff;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@layer components {
+  .liquid-glass-strong {
+    background: rgba(255, 255, 255, 0.01);
+    background-blend-mode: luminosity;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+    border: none;
+    box-shadow:
+      4px 4px 4px rgba(0, 0, 0, 0.05),
+      inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  .liquid-glass-strong::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.4px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0.2) 20%,
+      rgba(255, 255, 255, 0) 40%,
+      rgba(255, 255, 255, 0) 60%,
+      rgba(255, 255, 255, 0.2) 80%,
+      rgba(255, 255, 255, 0.5) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
