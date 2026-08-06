@@ -30,7 +30,7 @@ export default function AboutMe() {
 
   return (
     <section
-      id="about-me"
+      id="about"
       className="relative -mt-16 overflow-hidden px-6 pb-24 pt-24 md:pb-32 md:pt-28"
     >
       {/* Soft top blend so the color shift from the hero feels seamless */}
