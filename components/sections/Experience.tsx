@@ -1,59 +1,98 @@
 "use client";
 
 import SectionHeading from "@/components/SectionHeading";
-import { RevealGroup, RevealItem } from "@/components/Reveal";
 import { experience } from "@/lib/content";
 
 export default function Experience() {
   return (
     <section
       id="experience"
-      className="mx-auto max-w-5xl px-6 py-24 md:py-32"
+      className="min-w-0 py-20 lg:py-28"
     >
-      <SectionHeading index="03 / Experience" title="Where I've worked" />
+      <SectionHeading
+        index="03 / Experience"
+        title="Selected experience"
+        subtitle="Technical work, leadership, and operational responsibility."
+      />
 
-      <RevealGroup className="relative flex flex-col gap-2">
-        {/* Timeline line */}
-        <span
-          aria-hidden
-          className="absolute left-[7px] top-2 h-[calc(100%-1rem)] w-px bg-gradient-to-b from-purple-500/60 via-line to-transparent md:left-[9px]"
-        />
+      <div className="border-t border-white/10">
+        {experience.map((item, index) => (
+          <article
+            key={`${item.org}-${item.role}`}
+            className="
+              group relative
+              border-b border-white/10
+              py-7
+              transition-colors duration-500
+              hover:border-purple-400/30
+              hover:bg-white/[0.018]
+            "
+          >
+            <div className="grid gap-5 xl:grid-cols-[112px_minmax(0,1fr)]">
+              {/* Tarih ve sıra */}
+              <div>
+                <span className="font-mono text-xs font-bold tracking-[0.08em] text-purple-400">
+                  {item.period}
+                </span>
 
-        {experience.map((e) => (
-          <RevealItem key={`${e.org}-${e.role}`}>
-            <div className="relative flex gap-6 pb-10 pl-8 md:pl-10">
-              {/* Node */}
-              <span className="absolute left-0 top-1.5 grid h-4 w-4 place-items-center rounded-full border-2 border-purple-500 bg-base md:h-5 md:w-5">
-                <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
-              </span>
-
-              <div className="flex-1">
-                <div className="flex flex-col justify-between gap-1 sm:flex-row sm:items-baseline">
-                  <h3 className="font-heading text-lg font-semibold text-ink">{e.role}</h3>
-                  <span className="shrink-0 font-mono text-xs text-purple-400">
-                    {e.period}
-                  </span>
-                </div>
-                <p className="mt-0.5 text-sm text-ink-muted">
-                  {e.org}
-                  {e.location ? ` · ${e.location}` : ""}
+                <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[#736b89]">
+                  Record {String(index + 1).padStart(2, "0")}
                 </p>
-                <ul className="mt-3 space-y-2">
-                  {e.points.map((p, i) => (
+              </div>
+
+              {/* Deneyim içeriği */}
+              <div className="min-w-0">
+                <h3
+                  className="
+                    font-heading text-[20px] font-bold
+                    leading-tight tracking-[-0.035em]
+                    text-white
+                  "
+                >
+                  {item.role}
+                </h3>
+
+                <p className="mt-2 text-sm leading-relaxed text-[#aaa2bd]">
+                  {item.org}
+                  {item.location ? ` · ${item.location}` : ""}
+                </p>
+
+                <ul className="mt-5 space-y-4">
+                  {item.points.map((point, pointIndex) => (
                     <li
-                      key={i}
-                      className="flex gap-2.5 text-sm leading-relaxed text-ink-muted"
+                      key={pointIndex}
+                      className="
+                        grid grid-cols-[24px_minmax(0,1fr)]
+                        gap-3 text-sm leading-[1.75]
+                        text-[#c4bbd8]
+                      "
                     >
-                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-purple-500" />
-                      {p}
+                      <span className="pt-[2px] font-mono text-[10px] font-bold text-purple-400/80">
+                        {String(pointIndex + 1).padStart(2, "0")}
+                      </span>
+
+                      <span>{point}</span>
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
-          </RevealItem>
+
+            {/* Hover çizgisi */}
+            <span
+              aria-hidden="true"
+              className="
+                absolute bottom-0 left-0 h-px w-0
+                bg-gradient-to-r
+                from-purple-400 via-indigo-400 to-transparent
+                transition-[width] duration-700
+                ease-[cubic-bezier(0.16,1,0.3,1)]
+                group-hover:w-full
+              "
+            />
+          </article>
         ))}
-      </RevealGroup>
+      </div>
     </section>
   );
 }

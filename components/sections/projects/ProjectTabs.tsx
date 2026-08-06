@@ -2,7 +2,13 @@
 
 import * as React from "react";
 import type { Project } from "@/lib/content";
-import { Button } from "@/components/ui/flow-hover-button";
+
+const projectIcons: Record<string, string> = {
+  "traffic-enforcement": "🚘",
+  phoenixdf: "📚",
+  "taskflow-ai": "🧠",
+  gamescope: "🎮",
+};
 
 type ProjectTabsProps = {
   projects: Project[];
@@ -15,13 +21,13 @@ export default function ProjectTabs({
   activeId,
   onSelect,
 }: ProjectTabsProps) {
-  const buttonRefs = React.useRef<Array<HTMLButtonElement | null>>([]);
+  const itemRefs = React.useRef<Array<HTMLButtonElement | null>>([]);
 
-  const focusTab = (index: number) => {
+  const focusProject = (index: number) => {
     const normalizedIndex =
       ((index % projects.length) + projects.length) % projects.length;
 
-    buttonRefs.current[normalizedIndex]?.focus();
+    itemRefs.current[normalizedIndex]?.focus();
     onSelect(projects[normalizedIndex]!.id);
   };
 
@@ -33,23 +39,23 @@ export default function ProjectTabs({
       case "ArrowRight":
       case "ArrowDown":
         event.preventDefault();
-        focusTab(index + 1);
+        focusProject(index + 1);
         break;
 
       case "ArrowLeft":
       case "ArrowUp":
         event.preventDefault();
-        focusTab(index - 1);
+        focusProject(index - 1);
         break;
 
       case "Home":
         event.preventDefault();
-        focusTab(0);
+        focusProject(0);
         break;
 
       case "End":
         event.preventDefault();
-        focusTab(projects.length - 1);
+        focusProject(projects.length - 1);
         break;
     }
   };
@@ -60,23 +66,32 @@ export default function ProjectTabs({
       aria-label="Projects"
       aria-orientation="horizontal"
       className="
-        -mx-6 flex snap-x gap-4 overflow-x-auto px-6 pb-3
+        -mx-6 flex flex-nowrap items-center gap-5
+        overflow-x-auto px-6 pb-5
         [scrollbar-width:none]
         [&::-webkit-scrollbar]:hidden
-        md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0
-        xl:grid-cols-4
+
+        md:mx-0 md:px-0
+
+        xl:-mx-20
+        xl:w-[calc(100%+10rem)]
+        xl:justify-between
+        xl:gap-4
+
+        2xl:-mx-28
+        2xl:w-[calc(100%+14rem)]
       "
     >
       {projects.map((project, index) => {
         const isActive = project.id === activeId;
 
         return (
-          <Button
+          <button
             key={project.id}
             ref={(element) => {
-              buttonRefs.current[index] = element;
+              itemRefs.current[index] = element;
             }}
-            active={isActive}
+            type="button"
             role="tab"
             id={`project-tab-${project.id}`}
             aria-selected={isActive}
@@ -84,9 +99,78 @@ export default function ProjectTabs({
             tabIndex={isActive ? 0 : -1}
             onClick={() => onSelect(project.id)}
             onKeyDown={(event) => handleKeyDown(event, index)}
+            className={`
+              group relative flex shrink-0 items-center gap-2.5
+              border-0 bg-transparent px-1 py-3
+
+              font-heading text-[15px] font-extrabold leading-none
+              tracking-[-0.03em]
+              xl:text-[16px]
+              2xl:text-[17px]
+
+              transition-all duration-300
+              hover:-translate-y-0.5
+              focus-visible:outline-none
+
+              ${
+                isActive
+                  ? `
+                    text-white
+                    drop-shadow-[0_0_14px_rgba(157,120,255,0.85)]
+                  `
+                  : `
+                    text-[#d2c7ee]
+                    hover:text-white
+                    hover:drop-shadow-[0_0_10px_rgba(157,120,255,0.65)]
+                  `
+              }
+            `}
           >
-            {project.title}
-          </Button>
+            <span
+              aria-hidden="true"
+              className={`
+                text-[21px] leading-none
+                transition-all duration-300
+                xl:text-[22px]
+
+                ${
+                  isActive
+                    ? `
+                      opacity-100
+                      drop-shadow-[0_0_8px_rgba(157,120,255,0.9)]
+                    `
+                    : `
+                      opacity-90
+                      group-hover:scale-110
+                      group-hover:opacity-100
+                    `
+                }
+              `}
+            >
+              {projectIcons[project.id] ?? "✦"}
+            </span>
+
+            <span className="relative whitespace-nowrap">
+              {project.title}
+
+              {isActive && (
+                <span
+                  aria-hidden="true"
+                  className="
+                    absolute -bottom-2.5 left-0
+                    h-[2px] w-full rounded-full
+
+                    bg-gradient-to-r
+                    from-fuchsia-400
+                    via-violet-400
+                    to-indigo-400
+
+                    shadow-[0_0_12px_rgba(157,120,255,0.95)]
+                  "
+                />
+              )}
+            </span>
+          </button>
         );
       })}
     </div>

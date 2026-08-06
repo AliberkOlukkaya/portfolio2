@@ -2,37 +2,91 @@
 
 import { motion } from "framer-motion";
 
-// Ambient animated background: floating gradient blobs + grid overlay.
-// Purely decorative — hidden from assistive tech. Reduced-motion is handled
-// globally in globals.css (animations neutralized), so classes apply
-// unconditionally here to keep server/client render identical (no hydration gap).
 export default function AmbientBackground() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+      className="
+        pointer-events-none absolute inset-0 z-0
+        overflow-hidden bg-black
+      "
     >
-      {/* Base gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-base via-[#0c0a1f] to-navy-900" />
+      {/* Hero için koyu temel yüzey */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#07060f] via-[#080714] to-black" />
 
-      {/* Grid overlay */}
-      <div className="absolute inset-0 bg-grid opacity-40" />
+      {/* Hafif grid dokusu */}
+      <div className="absolute inset-0 bg-grid opacity-25" />
 
-      {/* Floating blobs — liquid-glass tones (violet → magenta → indigo → rose) */}
-      <div className="absolute -top-40 -left-32 h-[38rem] w-[38rem] rounded-full bg-purple-700/30 blur-[130px] animate-float-slow" />
-      <div className="absolute top-1/3 -right-40 h-[34rem] w-[34rem] rounded-full bg-indigo-600/28 blur-[130px] animate-float-slower" />
-      <div className="absolute bottom-0 left-1/4 h-[30rem] w-[30rem] rounded-full bg-magenta-600/18 blur-[120px] animate-float-slow" />
-      <div className="absolute top-2/3 right-1/4 h-[24rem] w-[24rem] rounded-full bg-rose-500/10 blur-[120px] animate-float-slower" />
+      {/* Mor ışık */}
+      <div
+        className="
+          absolute -left-40 -top-48
+          h-[40rem] w-[40rem]
+          rounded-full bg-purple-700/25
+          blur-[140px]
+          animate-float-slow
+        "
+      />
 
-      {/* Radial vignette for depth */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(7,6,15,0.85)_100%)]" />
+      {/* Mavi/indigo ışık */}
+      <div
+        className="
+          absolute -right-44 top-1/4
+          h-[35rem] w-[35rem]
+          rounded-full bg-indigo-600/20
+          blur-[140px]
+          animate-float-slower
+        "
+      />
 
-      {/* Subtle top glow */}
+      {/* Alt mor ışık */}
+      <div
+        className="
+          absolute -bottom-36 left-1/3
+          h-[30rem] w-[30rem]
+          rounded-full bg-magenta-600/15
+          blur-[130px]
+          animate-float-slow
+        "
+      />
+
+      {/* Merkez derinlik efekti */}
+      <div
+        className="
+          absolute inset-0
+          bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.78)_100%)]
+        "
+      />
+
+      {/* Üstte yavaşça nefes alan ışık */}
       <motion.div
-        initial={{ opacity: 0.35 }}
-        animate={{ opacity: [0.35, 0.6, 0.35] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute left-1/2 top-0 h-72 w-[52rem] -translate-x-1/2 rounded-full bg-purple-600/20 blur-[100px]"
+        initial={{ opacity: 0.3 }}
+        animate={{
+          opacity: [0.3, 0.55, 0.3],
+          scale: [1, 1.06, 1],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        className="
+          absolute left-1/2 top-0
+          h-72 w-[52rem]
+          -translate-x-1/2
+          rounded-full bg-purple-600/20
+          blur-[110px]
+        "
+      />
+
+      {/* Hero altından siyaha yumuşak geçiş */}
+      <div
+        className="
+          absolute inset-x-0 bottom-0 z-10
+          h-48
+          bg-gradient-to-b
+          from-transparent via-black/70 to-black
+        "
       />
     </div>
   );

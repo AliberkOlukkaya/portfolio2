@@ -20,123 +20,124 @@ export const Button = React.forwardRef<
       active = false,
       className,
       type = "button",
+      onPointerEnter,
+      onPointerLeave,
+      onFocus,
+      onBlur,
+      style,
       ...props
     },
     ref,
   ) => {
+    const [isHovered, setIsHovered] = React.useState(false);
+
+    const gradientOpacity = isHovered ? 1 : active ? 0.1 : 0;
+
     return (
       <button
         ref={ref}
         type={type}
+        onPointerEnter={(event) => {
+          setIsHovered(true);
+          onPointerEnter?.(event);
+        }}
+        onPointerLeave={(event) => {
+          setIsHovered(false);
+          onPointerLeave?.(event);
+        }}
+        onFocus={(event) => {
+          setIsHovered(true);
+          onFocus?.(event);
+        }}
+        onBlur={(event) => {
+          setIsHovered(false);
+          onBlur?.(event);
+        }}
         className={cn(
-          `
-          group relative isolate flex min-h-[58px]
-          w-[300px] shrink-0 cursor-pointer
-          items-center justify-center gap-2
-          overflow-hidden rounded-[18px] border
-          bg-[#f3f0e8] px-6 py-3
-
-          font-heading text-[15px] font-extrabold
-          tracking-[-0.025em] text-[#171426]
-
-          shadow-[0_10px_30px_-22px_rgba(139,92,246,0.5)]
-
-          transition-[transform,border-color,box-shadow]
-          duration-700
-          ease-[cubic-bezier(0.16,1,0.3,1)]
-
-          hover:-translate-y-1
-          hover:scale-[1.035]
-          hover:border-purple-400
-          hover:shadow-[0_20px_45px_-18px_rgba(99,102,241,0.75)]
-
-          active:translate-y-0
-          active:scale-[0.99]
-
-          focus-visible:outline-none
-          focus-visible:ring-2
-          focus-visible:ring-purple-400
-          focus-visible:ring-offset-2
-          focus-visible:ring-offset-[#090713]
-
-          md:w-full
-          `,
-          active
-            ? `
-              border-purple-400
-              ring-1 ring-purple-500/30
-              shadow-[0_14px_38px_-20px_rgba(139,92,246,0.7)]
-            `
-            : `
-              border-[#d8d2c7]
-            `,
+          "relative isolate flex min-h-[62px] w-[300px] shrink-0 cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-[22px] border bg-[#f6f2ea] px-6 py-3 font-heading text-[15px] font-bold tracking-[-0.02em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#090713] active:scale-[0.99] md:w-full",
           className,
         )}
+        style={{
+          ...style,
+          color: isHovered ? "#ffffff" : "#171426",
+
+          borderColor: active
+            ? "rgba(157, 120, 255, 0.95)"
+            : isHovered
+              ? "rgba(129, 140, 248, 0.9)"
+              : "#d8d2c7",
+
+          boxShadow: isHovered
+            ? "0 24px 58px -24px rgba(99, 102, 241, 0.82), 0 10px 24px -18px rgba(157, 120, 255, 0.9)"
+            : active
+              ? "0 15px 42px -27px rgba(157, 120, 255, 0.9)"
+              : "0 10px 30px -24px rgba(139, 92, 246, 0.45)",
+
+          transform: isHovered
+            ? "translateY(-4px) scale(1.035)"
+            : "translateY(0) scale(1)",
+
+          transition:
+            "transform 850ms cubic-bezier(0.16, 1, 0.3, 1), border-color 700ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 850ms cubic-bezier(0.16, 1, 0.3, 1), color 500ms ease",
+
+          transformOrigin: "center",
+          willChange: "transform",
+        }}
         {...props}
       >
-        {/* Hover sırasında yavaşça beliren mor-mavi yüzey */}
         <span
           aria-hidden="true"
-          className="
-            pointer-events-none absolute inset-0 z-0
-            rounded-[inherit]
-            bg-gradient-to-br
-            from-purple-500
-            via-violet-600
-            to-indigo-500
-
-            opacity-0
-            transition-opacity
-            duration-700
-            ease-[cubic-bezier(0.16,1,0.3,1)]
-
-            group-hover:opacity-100
-          "
+          className="pointer-events-none absolute inset-0 z-0 rounded-[inherit] bg-[linear-gradient(120deg,#9d78ff_0%,#775cf2_48%,#4f67df_100%)]"
+          style={{
+            opacity: gradientOpacity,
+            transition:
+              "opacity 700ms cubic-bezier(0.16, 1, 0.3, 1)",
+          }}
         />
 
-        {/* Üst parlaklık */}
         <span
           aria-hidden="true"
-          className="
-            pointer-events-none absolute inset-x-8 top-0 z-10
-            h-px bg-gradient-to-r
-            from-transparent via-white/80 to-transparent
-          "
+          className="pointer-events-none absolute inset-x-8 top-0 z-10 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent"
+          style={{
+            opacity: isHovered ? 0.95 : 0.5,
+            transition: "opacity 600ms ease",
+          }}
+        />
+
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-[1px] z-[1] rounded-[21px] border border-white/25"
         />
 
         {icon && (
           <span
-            className="
-              relative z-20
-              transition-colors duration-500
-              group-hover:text-white
-            "
+            className="relative z-20 flex items-center"
+            style={{
+              transform: isHovered ? "scale(1.08)" : "scale(1)",
+              transition:
+                "transform 700ms cubic-bezier(0.16, 1, 0.3, 1)",
+            }}
           >
             {icon}
           </span>
         )}
 
-        <span
-          className="
-            relative z-20 whitespace-nowrap
-            transition-colors duration-500
-            group-hover:text-white
-          "
-        >
+        <span className="relative z-20 whitespace-nowrap">
           {children}
         </span>
 
-        {/* Aktif proje göstergesi */}
         {active && (
-          <span
-            aria-hidden="true"
-            className="
-              pointer-events-none absolute bottom-1.5 left-1/2 z-30
-              h-[3px] w-16 -translate-x-1/2 rounded-full
-              bg-gradient-to-r
-              from-purple-500 via-violet-500 to-indigo-500
-            "
-          />
+          <>
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute bottom-1.5 left-1/2 z-30 h-[3px] w-16 -translate-x-1/2 rounded-full bg-gradient-to-r from-purple-500 via-violet-400 to-indigo-500"
+            />
+
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute bottom-0 left-1/2 z-20 h-5 w-24 -translate-x-1/2 translate-y-3 rounded-full bg-purple-500/30 blur-xl"
+            />
+          </>
         )}
       </button>
     );

@@ -1,33 +1,44 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { Menu, X, Github, Linkedin } from "lucide-react";
-import { profile } from "@/lib/content";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+} from "framer-motion";
+import { Menu, X } from "lucide-react";
 
 const links = [
   { href: "#about", label: "About" },
   { href: "#skills", label: "Skills" },
   { href: "#experience", label: "Experience" },
   { href: "#projects", label: "Projects" },
-  { href: "#contact", label: "Contact" },
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const reduce = useReducedMotion();
+  const [scrolled, setScrolled] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
-  // Lock body scroll when mobile menu open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+
     return () => {
       document.body.style.overflow = "";
     };
@@ -35,137 +46,322 @@ export default function Navbar() {
 
   return (
     <motion.header
-      initial={{ y: reduce ? 0 : -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4"
+      initial={{
+        y: reduceMotion ? 0 : -80,
+        opacity: 0,
+      }}
+      animate={{
+        y: 0,
+        opacity: 1,
+      }}
+      transition={{
+        duration: 0.7,
+        ease: [0.16, 1, 0.3, 1],
+      }}
+      className="
+        fixed inset-x-0 top-0 z-50
+        flex justify-center
+        px-4 pt-5
+        sm:px-6
+      "
     >
       <nav
-        className={`flex w-full max-w-5xl items-center justify-between rounded-2xl border px-4 py-3 transition-all duration-300 sm:px-6 ${
-          scrolled
-            ? "border-line bg-base-700/70 shadow-glow-sm backdrop-blur-xl"
-            : "border-transparent bg-transparent"
-        }`}
+        className={`
+          relative flex w-full max-w-6xl
+          items-center justify-between
+          overflow-hidden rounded-full
+          border border-white/20
+          px-7 py-4
+
+          bg-white/[0.035]
+          backdrop-blur-2xl
+          backdrop-saturate-150
+
+          shadow-[inset_0_1px_0_rgba(255,255,255,0.28),inset_0_-1px_0_rgba(255,255,255,0.06),inset_0_0_24px_rgba(255,255,255,0.025),0_10px_35px_rgba(0,0,0,0.32)]
+
+          transition-[transform,background-color,border-color,box-shadow]
+          duration-500
+          ease-[cubic-bezier(0.16,1,0.3,1)]
+
+          before:pointer-events-none
+          before:absolute
+          before:inset-x-10
+          before:top-0
+          before:h-px
+          before:bg-gradient-to-r
+          before:from-transparent
+          before:via-white/75
+          before:to-transparent
+
+          after:pointer-events-none
+          after:absolute
+          after:inset-x-14
+          after:bottom-0
+          after:h-px
+          after:bg-gradient-to-r
+          after:from-transparent
+          after:via-white/15
+          after:to-transparent
+
+          sm:px-9
+
+          ${
+            scrolled
+              ? `
+                scale-[0.985]
+                border-white/25
+                bg-black/20
+
+                shadow-[inset_0_1px_0_rgba(255,255,255,0.24),inset_0_-1px_0_rgba(255,255,255,0.05),inset_0_0_22px_rgba(255,255,255,0.02),0_14px_40px_rgba(0,0,0,0.4)]
+              `
+              : ""
+          }
+        `}
       >
+        {/* AO logo */}
         <a
           href="#top"
-          className="group flex items-center gap-2 font-mono text-sm font-semibold tracking-tight"
+          aria-label="Back to top"
+          className="
+            relative z-10 shrink-0
+
+            font-heading text-[23px]
+            font-black italic
+            tracking-[-0.08em]
+            text-white
+
+            transition-[transform,color,text-shadow]
+            duration-500
+            ease-[cubic-bezier(0.16,1,0.3,1)]
+
+            hover:-rotate-3
+            hover:scale-110
+            hover:text-purple-200
+            hover:[text-shadow:0_0_18px_rgba(176,145,255,0.8)]
+          "
         >
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-purple-500 to-navy-700 text-xs font-bold text-white shadow-glow-sm">
-            AO
-          </span>
-          <span className="hidden text-ink transition-colors group-hover:text-purple-400 sm:inline">
-            aliberk<span className="text-purple-400">.dev</span>
-          </span>
+          AO
         </a>
 
-        {/* Desktop links */}
-        <ul className="hidden items-center gap-1 md:flex">
-          {links.map((l) => (
-            <li key={l.href}>
+        {/* Desktop navigation */}
+        <ul className="relative z-10 hidden items-center gap-6 md:flex lg:gap-10">
+          {links.map((link) => (
+            <li key={link.href}>
               <a
-                href={l.href}
-                className="rounded-lg px-3 py-2 text-sm text-ink-muted transition-colors hover:bg-purple-500/10 hover:text-ink"
+                href={link.href}
+                className="
+                  group relative block
+                  rounded-full px-2 py-3
+
+                  font-heading text-[18px]
+                  font-semibold tracking-[-0.03em]
+                  text-white/85
+
+                  transition-[color,transform]
+                  duration-300
+
+                  hover:-translate-y-0.5
+                  hover:text-white
+                "
               >
-                {l.label}
+                {link.label}
+
+                <span
+                  aria-hidden="true"
+                  className="
+                    absolute inset-x-2 bottom-1
+                    h-px origin-center scale-x-0
+
+                    bg-gradient-to-r
+                    from-transparent
+                    via-white/70
+                    to-transparent
+
+                    transition-transform duration-500
+                    ease-[cubic-bezier(0.16,1,0.3,1)]
+
+                    group-hover:scale-x-100
+                  "
+                />
               </a>
             </li>
           ))}
         </ul>
 
-        <div className="flex items-center gap-2">
-          <a
-            href={profile.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub profile"
-            className="hidden rounded-lg p-2 text-ink-muted transition-colors hover:bg-purple-500/10 hover:text-ink sm:inline-flex"
-          >
-            <Github size={18} />
-          </a>
-          <a
-            href={profile.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn profile"
-            className="hidden rounded-lg p-2 text-ink-muted transition-colors hover:bg-purple-500/10 hover:text-ink sm:inline-flex"
-          >
-            <Linkedin size={18} />
-          </a>
+        {/* Desktop CTA */}
+        <div className="relative z-10 flex items-center gap-2">
           <a
             href="#contact"
-            className="hidden rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-purple-500 hover:shadow-glow-sm md:inline-flex"
+            className="
+              hidden min-h-12
+              items-center justify-center
+              rounded-full
+
+              border border-white/25
+              bg-white/[0.08]
+              px-8 py-3
+
+              font-heading text-[17px]
+              font-bold tracking-[-0.03em]
+              text-white
+
+              shadow-[inset_0_1px_0_rgba(255,255,255,0.22),inset_0_-1px_0_rgba(255,255,255,0.05),0_8px_24px_rgba(0,0,0,0.25)]
+              backdrop-blur-xl
+
+              transition-all duration-500
+              ease-[cubic-bezier(0.16,1,0.3,1)]
+
+              hover:-translate-y-0.5
+              hover:scale-[1.03]
+              hover:border-white/40
+              hover:bg-white/[0.14]
+              hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_12px_30px_rgba(0,0,0,0.32)]
+
+              md:inline-flex
+            "
           >
             Get in touch
           </a>
 
-          {/* Mobile toggle */}
+          {/* Mobile menu button */}
           <button
-            onClick={() => setOpen((v) => !v)}
+            type="button"
+            onClick={() => setOpen((current) => !current)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-ink transition-colors hover:bg-purple-500/10 md:hidden"
+            className="
+              grid h-12 w-12
+              place-items-center
+              rounded-full
+
+              border border-white/25
+              bg-white/[0.08]
+              text-white
+              backdrop-blur-xl
+
+              shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_8px_24px_rgba(0,0,0,0.24)]
+
+              transition-all duration-300
+
+              hover:scale-105
+              hover:border-white/40
+              hover:bg-white/[0.14]
+
+              md:hidden
+            "
           >
-            {open ? <X size={20} /> : <Menu size={20} />}
+            {open ? (
+              <X size={22} aria-hidden="true" />
+            ) : (
+              <Menu size={22} aria-hidden="true" />
+            )}
           </button>
         </div>
       </nav>
 
-      {/* Mobile menu */}
+      {/* Mobile navigation */}
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 top-0 z-40 flex flex-col bg-base/95 px-6 pb-10 pt-24 backdrop-blur-xl md:hidden"
+            initial={{
+              opacity: 0,
+              y: -12,
+              scale: 0.97,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              scale: 1,
+            }}
+            exit={{
+              opacity: 0,
+              y: -12,
+              scale: 0.97,
+            }}
+            transition={{
+              duration: 0.3,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="
+              fixed left-4 right-4 top-[100px]
+              z-40 overflow-hidden
+              rounded-[30px]
+
+              border border-white/20
+              bg-white/[0.05]
+              p-4
+
+              shadow-[inset_0_1px_0_rgba(255,255,255,0.25),inset_0_-1px_0_rgba(255,255,255,0.05),0_24px_60px_rgba(0,0,0,0.42)]
+
+              backdrop-blur-2xl
+              backdrop-saturate-150
+
+              md:hidden
+            "
           >
-            <ul className="flex flex-col gap-2">
-              {links.map((l, i) => (
-                <motion.li
-                  key={l.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.05 * i + 0.1 }}
-                >
+            <span
+              aria-hidden="true"
+              className="
+                pointer-events-none absolute
+                inset-x-8 top-0 h-px
+                bg-gradient-to-r
+                from-transparent via-white/70 to-transparent
+              "
+            />
+
+            <ul className="relative z-10 flex flex-col">
+              {links.map((link) => (
+                <li key={link.href}>
                   <a
-                    href={l.href}
+                    href={link.href}
                     onClick={() => setOpen(false)}
-                    className="block rounded-xl px-4 py-4 text-lg text-ink transition-colors hover:bg-purple-500/10"
+                    className="
+                      block rounded-2xl
+                      px-5 py-4
+
+                      font-heading text-xl
+                      font-semibold tracking-[-0.035em]
+                      text-white/90
+
+                      transition-colors duration-300
+
+                      hover:bg-white/[0.08]
+                      hover:text-white
+                    "
                   >
-                    {l.label}
+                    {link.label}
                   </a>
-                </motion.li>
+                </li>
               ))}
             </ul>
-            <div className="mt-auto flex items-center gap-3 pt-8">
-              <a
-                href={profile.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub profile"
-                className="rounded-xl border border-line p-3 text-ink-muted transition-colors hover:text-ink"
-              >
-                <Github size={20} />
-              </a>
-              <a
-                href={profile.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn profile"
-                className="rounded-xl border border-line p-3 text-ink-muted transition-colors hover:text-ink"
-              >
-                <Linkedin size={20} />
-              </a>
-              <a
-                href="#contact"
-                onClick={() => setOpen(false)}
-                className="ml-auto rounded-xl bg-purple-600 px-5 py-3 font-medium text-white"
-              >
-                Get in touch
-              </a>
-            </div>
+
+            <a
+              href="#contact"
+              onClick={() => setOpen(false)}
+              className="
+                relative z-10 mt-3
+                flex min-h-14
+                items-center justify-center
+                rounded-full
+
+                border border-white/25
+                bg-white/[0.1]
+                px-6 py-3
+
+                font-heading text-lg
+                font-bold text-white
+
+                shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_10px_24px_rgba(0,0,0,0.28)]
+                backdrop-blur-xl
+
+                transition-all duration-300
+
+                hover:border-white/40
+                hover:bg-white/[0.16]
+              "
+            >
+              Get in touch
+            </a>
           </motion.div>
         )}
       </AnimatePresence>
