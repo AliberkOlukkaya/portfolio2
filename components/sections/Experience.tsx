@@ -7,7 +7,11 @@ export default function Experience() {
   return (
     <section
       id="experience"
-      className="min-w-0 py-20 lg:py-28"
+      className="
+        min-w-0
+        py-20
+        lg:py-28
+      "
     >
       <SectionHeading
         index="03 / Experience"
@@ -15,81 +19,145 @@ export default function Experience() {
         subtitle="Technical work, leadership, and operational responsibility."
       />
 
-      <div className="border-t border-white/10">
-        {experience.map((item, index) => (
+      <div className="space-y-5">
+        {experience.map((item) => (
           <article
             key={`${item.org}-${item.role}`}
             className="
               group relative
-              border-b border-white/10
-              py-7
-              transition-colors duration-500
+              overflow-hidden
+              rounded-[28px]
+
+              border border-black/10
+              bg-[#f4f1f7]
+
+              px-7 py-7
+
+              shadow-[0_24px_60px_-36px_rgba(0,0,0,0.50)]
+
+              transition-all
+              duration-500
+              ease-[cubic-bezier(0.16,1,0.3,1)]
+
+              hover:-translate-y-1
               hover:border-purple-400/30
-              hover:bg-white/[0.018]
+
+              hover:shadow-[0_28px_70px_-34px_rgba(124,58,237,0.24)]
             "
           >
-            <div className="grid gap-5 xl:grid-cols-[112px_minmax(0,1fr)]">
-              {/* Tarih ve sıra */}
+            {/* left accent */}
+            <span
+              aria-hidden="true"
+              className="
+                absolute
+                bottom-6 left-0 top-6
+
+                w-[3px]
+                rounded-full
+
+                bg-gradient-to-b
+                from-purple-500
+                via-violet-500
+                to-indigo-500
+
+                opacity-75
+              "
+            />
+
+            <div
+              className="
+                grid gap-6
+                xl:grid-cols-[130px_minmax(0,1fr)]
+              "
+            >
+              {/* date */}
               <div>
-                <span className="font-mono text-xs font-bold tracking-[0.08em] text-purple-400">
+                <span
+                  className="
+                    inline-flex
+                    rounded-full
+
+                    border border-purple-500/15
+                    bg-purple-500/[0.07]
+
+                    px-3.5 py-2
+
+                    font-mono
+                    text-[13px]
+                    font-bold
+                    tracking-[0.06em]
+
+                    text-purple-800
+                  "
+                >
                   {item.period}
                 </span>
-
-                <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[#736b89]">
-                  Record {String(index + 1).padStart(2, "0")}
-                </p>
               </div>
 
-              {/* Deneyim içeriği */}
+              {/* content */}
               <div className="min-w-0">
                 <h3
                   className="
-                    font-heading text-[20px] font-bold
-                    leading-tight tracking-[-0.035em]
-                    text-white
+                    font-heading
+                    text-[25px]
+                    font-bold
+                    leading-tight
+                    tracking-[-0.04em]
+
+                    text-[#141119]
                   "
                 >
                   {item.role}
                 </h3>
 
-                <p className="mt-2 text-sm leading-relaxed text-[#aaa2bd]">
+                <p
+                  className="
+                    mt-2
+
+                    text-[16px]
+                    font-medium
+                    leading-relaxed
+
+                    text-[#686171]
+                  "
+                >
                   {item.org}
                   {item.location ? ` · ${item.location}` : ""}
                 </p>
 
-                <ul className="mt-5 space-y-4">
+                <ul className="mt-6 space-y-3.5">
                   {item.points.map((point, pointIndex) => (
                     <li
                       key={pointIndex}
                       className="
-                        grid grid-cols-[24px_minmax(0,1fr)]
-                        gap-3 text-sm leading-[1.75]
-                        text-[#c4bbd8]
+                        relative
+                        pl-6
+
+                        text-[16px]
+                        font-medium
+                        leading-[1.75]
+
+                        text-[#4f4959]
+
+                        before:absolute
+                        before:left-0
+                        before:top-[0.7em]
+
+                        before:h-2
+                        before:w-2
+
+                        before:rounded-full
+                        before:bg-purple-500
+
+                        before:shadow-[0_0_8px_rgba(139,92,246,0.35)]
                       "
                     >
-                      <span className="pt-[2px] font-mono text-[10px] font-bold text-purple-400/80">
-                        {String(pointIndex + 1).padStart(2, "0")}
-                      </span>
-
-                      <span>{point}</span>
+                      {point}
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
-
-            {/* Hover çizgisi */}
-            <span
-              aria-hidden="true"
-              className="
-                absolute bottom-0 left-0 h-px w-0
-                bg-gradient-to-r
-                from-purple-400 via-indigo-400 to-transparent
-                transition-[width] duration-700
-                ease-[cubic-bezier(0.16,1,0.3,1)]
-                group-hover:w-full
-              "
-            />
           </article>
         ))}
       </div>

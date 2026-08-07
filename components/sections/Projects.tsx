@@ -9,27 +9,68 @@ import {
 
 import Reveal from "@/components/Reveal";
 import { projects } from "@/lib/content";
+
 import ProjectTabs from "@/components/sections/projects/ProjectTabs";
 import ProjectDetails from "@/components/sections/projects/ProjectDetails";
 import ProjectImageStack from "@/components/sections/projects/ProjectImageStack";
 
-const featuredProjects = projects.filter(
-  (project) => project.id !== "portfolio",
-);
+const stackColors = [
+  {
+    bg: "bg-[#fff1e8]",
+    text: "text-[#8a3b12]",
+    border: "border-[#ffb38a]",
+    shadow: "shadow-[0_10px_26px_-16px_rgba(255,120,70,0.55)]",
+  },
+  {
+    bg: "bg-[#ede4ff]",
+    text: "text-[#5b21b6]",
+    border: "border-[#b794f4]",
+    shadow: "shadow-[0_10px_26px_-16px_rgba(139,92,246,0.55)]",
+  },
+  {
+    bg: "bg-[#dff4ff]",
+    text: "text-[#0b5cab]",
+    border: "border-[#7dd3fc]",
+    shadow: "shadow-[0_10px_26px_-16px_rgba(56,189,248,0.55)]",
+  },
+  {
+    bg: "bg-[#dcffe8]",
+    text: "text-[#117a46]",
+    border: "border-[#6ee7b7]",
+    shadow: "shadow-[0_10px_26px_-16px_rgba(52,211,153,0.55)]",
+  },
+  {
+    bg: "bg-[#fff3bf]",
+    text: "text-[#9a6700]",
+    border: "border-[#facc15]",
+    shadow: "shadow-[0_10px_26px_-16px_rgba(250,204,21,0.55)]",
+  },
+  {
+    bg: "bg-[#ffe0e6]",
+    text: "text-[#b4234d]",
+    border: "border-[#f9a8d4]",
+    shadow: "shadow-[0_10px_26px_-16px_rgba(244,114,182,0.55)]",
+  },
+];
 
 export default function Projects() {
-  const reduceMotion = useReducedMotion();
+  const reduce = useReducedMotion();
+
+  const featuredProjects = React.useMemo(
+    () => projects.filter((project) => project.id !== "portfolio"),
+    [],
+  );
 
   const [activeId, setActiveId] = React.useState(
     featuredProjects[0]!.id,
   );
 
-  const activeProject =
+  const active =
     featuredProjects.find(
       (project) => project.id === activeId,
     ) ?? featuredProjects[0]!;
 
-  const enterAnimation = reduceMotion
+  const enter = reduce
     ? {
         opacity: 1,
       }
@@ -39,7 +80,7 @@ export default function Projects() {
         filter: "blur(0px)",
       };
 
-  const initialAnimation = reduceMotion
+  const from = reduce
     ? {
         opacity: 0,
       }
@@ -49,7 +90,7 @@ export default function Projects() {
         filter: "blur(6px)",
       };
 
-  const exitAnimation = reduceMotion
+  const exit = reduce
     ? {
         opacity: 0,
       }
@@ -59,39 +100,59 @@ export default function Projects() {
         filter: "blur(6px)",
       };
 
-  const transition = {
-    duration: 0.45,
-    ease: [0.16, 1, 0.3, 1] as const,
-    opacity: {
-      duration: 0.3,
-    },
-  };
-
   return (
     <section
       id="projects"
       className="
-        mx-auto max-w-7xl px-6 py-24
+        mx-auto
+        w-full
+        max-w-[1600px]
+
+        px-5
+        py-24
+
+        sm:px-7
         md:py-32
-        lg:max-w-[1500px]
+
+        lg:px-10
       "
     >
-      <Reveal className="mb-12 text-center md:mb-16">
-        <span
+      {/* HEADER */}
+
+      <Reveal
+        className="
+          mb-12
+          text-center
+
+          md:mb-16
+        "
+      >
+        <p
           className="
-            mb-3 block font-mono text-xs
-            uppercase tracking-[0.28em]
-            text-purple-400
+            mb-4
+
+            font-mono
+            text-[10px]
+            font-bold
+            uppercase
+            tracking-[0.32em]
+
+            text-purple-300
           "
         >
-          Selected work
-        </span>
+          Selected Work
+        </p>
 
         <h2
           className="
-            font-heading text-3xl font-bold tracking-tight
-            sm:text-4xl
-            md:text-5xl
+            font-heading
+            text-4xl
+            font-bold
+            tracking-[-0.045em]
+
+            text-white
+
+            sm:text-5xl
           "
         >
           Featured Projects
@@ -99,12 +160,21 @@ export default function Projects() {
 
         <span
           className="
-            mx-auto mt-4 block h-px w-28
+            mx-auto
+            mt-5
+            block
+            h-px
+            w-24
+
             bg-gradient-to-r
-            from-transparent via-purple-400 to-transparent
+            from-transparent
+            via-purple-400
+            to-transparent
           "
         />
       </Reveal>
+
+      {/* PROJECT TABS */}
 
       <Reveal>
         <ProjectTabs
@@ -114,128 +184,235 @@ export default function Projects() {
         />
       </Reveal>
 
-      <AnimatePresence mode="wait" initial={false}>
+      {/* PROJECT TITLE */}
+
+      <AnimatePresence
+        mode="wait"
+        initial={false}
+      >
         <motion.h3
-          key={activeProject.id}
-          initial={initialAnimation}
-          animate={enterAnimation}
-          exit={exitAnimation}
-          transition={transition}
+          key={active.id}
+          initial={from}
+          animate={enter}
+          exit={exit}
+          transition={{
+            duration: 0.45,
+            ease: [0.16, 1, 0.3, 1],
+            opacity: {
+              duration: 0.3,
+            },
+          }}
           className="
-            mt-10 font-heading font-bold
-            leading-[1.08] tracking-tight
-            text-balance text-ink
-            md:mt-12
+            mt-14
+
+            max-w-[1450px]
+
+            font-heading
+            font-bold
+            tracking-[-0.055em]
+
+            text-white
+
+            md:mt-16
           "
           style={{
-            fontSize: "clamp(2.5rem, 4vw, 4.5rem)",
-          }}
+  fontSize: "clamp(2.2rem, 3.2vw, 3.8rem)",
+  lineHeight: 1.08,
+}}
         >
-          {activeProject.title}
+          {active.title}
         </motion.h3>
       </AnimatePresence>
 
+      {/* BODY */}
+
       <div
         role="tabpanel"
-        id={`project-panel-${activeProject.id}`}
-        aria-labelledby={`project-tab-${activeProject.id}`}
+        id={`project-panel-${active.id}`}
+        aria-labelledby={`project-tab-${active.id}`}
         className="
-          mt-8 grid items-start gap-10
-          md:mt-10
-          md:grid-cols-[minmax(340px,0.75fr)_minmax(0,1.75fr)]
-          md:gap-12
-          lg:gap-16
+          mt-10
+          grid
+          items-start
+
+          gap-10
+
+          lg:grid-cols-[minmax(330px,0.8fr)_205px_minmax(0,1.45fr)]
+          lg:gap-10
+
+          xl:grid-cols-[minmax(360px,0.82fr)_225px_minmax(0,1.5fr)]
+          xl:gap-12
         "
         style={{
           isolation: "isolate",
         }}
       >
-        <div className="relative z-30 min-w-0 md:order-1">
-          <AnimatePresence mode="wait" initial={false}>
+        {/* LEFT — PROJECT DETAILS */}
+
+        <div
+          className="
+            relative z-20
+            min-w-0
+
+            lg:-ml-6
+          "
+        >
+          <AnimatePresence
+            mode="wait"
+            initial={false}
+          >
             <motion.div
-              key={activeProject.id}
-              initial={initialAnimation}
-              animate={enterAnimation}
-              exit={exitAnimation}
-              transition={transition}
+              key={active.id}
+              initial={from}
+              animate={enter}
+              exit={exit}
+              transition={{
+                duration: 0.45,
+                ease: [0.16, 1, 0.3, 1],
+                opacity: {
+                  duration: 0.3,
+                },
+              }}
             >
-              <ProjectDetails project={activeProject} />
+              <ProjectDetails project={active} />
             </motion.div>
           </AnimatePresence>
         </div>
 
+        {/* CENTER — TECHNOLOGY STACK */}
+
+        <AnimatePresence
+          mode="wait"
+          initial={false}
+        >
+          <motion.aside
+            key={`stack-${active.id}`}
+            initial={from}
+            animate={enter}
+            exit={exit}
+            transition={{
+              duration: 0.45,
+              delay: 0.04,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="
+              relative z-20
+              lg:pt-1
+            "
+          >
+            <p
+              className="
+                mb-5
+
+                font-mono
+                text-[12px]
+                font-black
+                uppercase
+                tracking-[0.22em]
+
+                text-white/85
+              "
+            >
+              Technology Stack
+            </p>
+
+            <div
+              className="
+                flex
+                flex-wrap
+                gap-3
+
+                lg:flex-col
+              "
+            >
+              {active.stack.map((tech, index) => {
+                const color =
+                  stackColors[index % stackColors.length];
+
+                return (
+                  <div
+                    key={tech}
+                    className={`
+                      flex
+                      min-h-[50px]
+
+                      items-center
+                      justify-center
+
+                      rounded-[13px]
+
+                      border
+                      ${color.border}
+                      ${color.bg}
+                      ${color.shadow}
+
+                      px-5
+                      py-3
+
+                      text-center
+
+                      font-mono
+                      text-[15px]
+                      font-black
+                      tracking-[0.01em]
+
+                      ${color.text}
+
+                      transition-all
+                      duration-300
+                      ease-[cubic-bezier(0.16,1,0.3,1)]
+
+                      hover:-translate-y-1
+                      hover:scale-[1.035]
+                      hover:brightness-[1.06]
+                    `}
+                  >
+                    {tech}
+                  </div>
+                );
+              })}
+            </div>
+          </motion.aside>
+        </AnimatePresence>
+
+        {/* RIGHT — PROJECT VISUAL */}
+
         <div
-          className="relative min-w-0 md:order-2"
+          className="
+            relative
+            min-w-0
+          "
           style={{
             isolation: "isolate",
           }}
         >
-          <AnimatePresence mode="wait" initial={false}>
+          <AnimatePresence
+            mode="wait"
+            initial={false}
+          >
             <motion.div
-              key={activeProject.id}
-              initial={initialAnimation}
-              animate={enterAnimation}
-              exit={exitAnimation}
-              transition={transition}
+              key={`image-${active.id}`}
+              initial={from}
+              animate={enter}
+              exit={exit}
+              transition={{
+                duration: 0.45,
+                ease: [0.16, 1, 0.3, 1],
+                opacity: {
+                  duration: 0.3,
+                },
+              }}
               className="
-                grid items-start gap-6
-                xl:grid-cols-[minmax(0,1fr)_160px]
+                ml-auto
+                w-full
+                max-w-[720px]
               "
             >
-              <div className="min-w-0">
-                <ProjectImageStack
-                  projectId={activeProject.id}
-                  projectTitle={activeProject.title}
-                  screenshots={activeProject.screenshots}
-                />
-              </div>
-
-              <aside className="min-w-0 xl:pt-2">
-                <p
-                  className="
-                    mb-4 font-mono text-[11px] font-bold
-                    uppercase tracking-[0.18em]
-                    text-white
-                  "
-                >
-                  Technology stack
-                </p>
-
-                <ul
-                  className="
-                    flex flex-wrap gap-2.5
-                    xl:flex-col
-                    xl:items-stretch
-                  "
-                >
-                  {activeProject.stack.map((technology) => (
-                    <li
-                      key={technology}
-                      className="
-                        rounded-xl
-                        border border-white/80
-                        bg-[#f4f1e9]
-                        px-3 py-2.5
-
-                        text-center font-mono
-                        text-xs font-bold
-                        text-[#171426]
-
-                        shadow-[0_8px_24px_-18px_rgba(255,255,255,0.8)]
-
-                        transition-all duration-300
-
-                        hover:-translate-y-0.5
-                        hover:border-purple-300
-                        hover:bg-white
-                        hover:shadow-[0_12px_30px_-18px_rgba(157,120,255,0.9)]
-                      "
-                    >
-                      {technology}
-                    </li>
-                  ))}
-                </ul>
-              </aside>
+              <ProjectImageStack
+                projectId={active.id}
+                projectTitle={active.title}
+                screenshots={active.screenshots}
+              />
             </motion.div>
           </AnimatePresence>
         </div>

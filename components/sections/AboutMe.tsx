@@ -2,85 +2,350 @@
 
 import Image from "next/image";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-
-const ABOUT_TEXT =
-  "I’m a Computer Engineering graduate with practical experience in Python, machine learning, deep learning, backend systems, databases, and modern web interfaces. I’ve built AI-powered applications that connect intelligent workflows to software people can use. My current focus is AI engineering, data engineering, and Python development. I approach each project through continuous learning and product-focused problem solving.";
+import { Circle } from "lucide-react";
 
 export default function AboutMe() {
   const reduce = useReducedMotion();
 
   const photo: Variants = {
-    hidden: { opacity: 0, x: reduce ? 0 : -40, scale: reduce ? 1 : 0.96 },
+    hidden: {
+      opacity: 0,
+      x: reduce ? 0 : -40,
+      scale: reduce ? 1 : 0.97,
+    },
     visible: {
       opacity: 1,
       x: 0,
       scale: 1,
-      transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
+      transition: {
+        duration: 0.9,
+        ease: [0.16, 1, 0.3, 1],
+      },
     },
   };
 
-  const text: Variants = {
-    hidden: { opacity: 0, x: reduce ? 0 : 40 },
+  const content: Variants = {
+    hidden: {
+      opacity: 0,
+      x: reduce ? 0 : 40,
+    },
     visible: {
       opacity: 1,
       x: 0,
-      transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
+      transition: {
+        duration: 0.9,
+        ease: [0.16, 1, 0.3, 1],
+      },
     },
   };
 
   return (
     <section
       id="about"
-      className="relative -mt-16 overflow-hidden px-6 pb-24 pt-24 md:pb-32 md:pt-28"
+      className="
+        relative overflow-hidden
+        bg-black
+        px-6 py-28
+        md:px-10 md:py-32
+        lg:px-16
+      "
     >
-      {/* Soft top blend so the color shift from the hero feels seamless */}
+      {/* Background glow */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-56 bg-gradient-to-b from-base/90 via-base/40 to-transparent"
-      />
-      {/* Gentle themed glow anchoring the section */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-700/12 blur-[140px]"
+        className="
+          pointer-events-none
+          absolute left-[16%] top-1/2
+          h-[38rem] w-[38rem]
+          -translate-x-1/2 -translate-y-1/2
+          rounded-full
+          bg-[radial-gradient(circle,rgba(124,58,237,0.17),rgba(79,70,229,0.08)_40%,transparent_72%)]
+          blur-[130px]
+        "
       />
 
       <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ staggerChildren: 0.15 }}
-        className="relative z-10 mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2 md:gap-16"
+        viewport={{
+          once: true,
+          margin: "-100px",
+        }}
+        transition={{
+          staggerChildren: 0.16,
+        }}
+        className="
+          relative z-10
+          mx-auto grid max-w-7xl
+          items-center gap-16
+          lg:grid-cols-[0.92fr_1.08fr]
+          xl:gap-24
+        "
       >
-        {/* Left — profile photo with premium gradient border + glow */}
-        <motion.div variants={photo} className="flex justify-center md:justify-start">
-          <div className="group relative">
-            {/* Soft colored glow behind the frame */}
-            <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-purple-600/30 via-magenta-500/25 to-indigo-500/30 opacity-70 blur-2xl transition-opacity duration-700 group-hover:opacity-90" />
-            {/* Gradient border ring */}
-            <div className="relative rounded-[1.6rem] bg-gradient-to-br from-purple-400/80 via-magenta-500/70 to-indigo-500/80 p-[2px] shadow-[0_20px_60px_-20px_rgba(157,120,255,0.55)]">
-              <div className="overflow-hidden rounded-[1.5rem] bg-base-700">
+        {/* PHOTO */}
+        <motion.div
+          variants={photo}
+          className="flex justify-center lg:justify-start"
+        >
+          <div
+            className="
+              group relative
+              w-full max-w-[510px]
+              xl:max-w-[540px]
+            "
+          >
+            {/* Outer glow */}
+            <div
+              aria-hidden="true"
+              className="
+                pointer-events-none
+                absolute -inset-12
+                rounded-[52px]
+                bg-[radial-gradient(circle_at_45%_50%,rgba(139,92,246,0.34),rgba(99,102,241,0.18)_38%,transparent_72%)]
+                blur-[60px]
+                opacity-95
+              "
+            />
+
+            {/* Frame glow */}
+            <div
+              aria-hidden="true"
+              className="
+                pointer-events-none
+                absolute -inset-[7px]
+                rounded-[40px]
+                bg-gradient-to-br
+                from-purple-400/35
+                via-violet-500/15
+                to-indigo-400/35
+                blur-lg
+              "
+            />
+
+            {/* Photo */}
+            <div
+              className="
+                relative rounded-[34px]
+                bg-gradient-to-br
+                from-purple-300/90
+                via-violet-500/70
+                to-indigo-400/90
+                p-[3px]
+                shadow-[0_0_32px_rgba(168,85,247,0.25),0_0_75px_rgba(99,102,241,0.15)]
+              "
+            >
+              <div
+                className="
+                  overflow-hidden
+                  rounded-[31px]
+                  bg-black
+                "
+              >
                 <Image
-                  src="/profile.jpeg"
+                  src="/profile.png"
                   alt="Aliberk Olukkaya"
-                  width={640}
-                  height={800}
+                  width={950}
+                  height={1188}
                   priority
-                  className="aspect-[4/5] h-auto w-full max-w-sm object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                  className="
+                    aspect-[4/5]
+                    h-auto w-full
+                    object-cover
+                    transition-transform
+                    duration-700
+                    ease-[cubic-bezier(0.16,1,0.3,1)]
+                    group-hover:scale-[1.012]
+                  "
                 />
               </div>
             </div>
           </div>
         </motion.div>
 
-        {/* Right — about text */}
-        <motion.div variants={text} className="flex flex-col">
-          <span className="mb-4 font-mono text-sm text-purple-400">
+        {/* TEXT */}
+        <motion.div
+          variants={content}
+          className="max-w-3xl"
+        >
+          {/* Main heading */}
+          <h2
+            className="
+              font-heading
+              text-[44px]
+              font-black
+              leading-none
+              tracking-[-0.055em]
+              text-white
+
+              sm:text-[52px]
+              md:text-[60px]
+            "
+          >
             About Me
-          </span>
-          <p className="font-body text-xl font-medium leading-relaxed text-white sm:text-2xl md:text-[1.65rem] md:leading-[1.65]">
-            {ABOUT_TEXT}
+          </h2>
+
+          {/* Accent line */}
+          <div
+            className="
+              mt-5 h-[3px] w-20
+              rounded-full
+              bg-gradient-to-r
+              from-purple-400
+              via-violet-500
+              to-indigo-500
+              shadow-[0_0_14px_rgba(139,92,246,0.65)]
+            "
+          />
+
+          {/* Terminal line */}
+          <div
+            className="
+              mt-8 flex items-center gap-3
+              font-mono text-[16px]
+            "
+          >
+            <span className="font-bold text-purple-400">
+              $
+            </span>
+
+            <span className="font-semibold text-white/85">
+              whoami
+            </span>
+          </div>
+
+          {/* Paragraph 1 */}
+          <p
+            className="
+              mt-9
+              max-w-3xl
+
+              font-body
+              text-[19px]
+              font-medium
+              leading-[1.75]
+              tracking-[-0.015em]
+              text-white/70
+
+              md:text-[21px]
+            "
+          >
+            I&apos;m{" "}
+            <span className="font-semibold text-white">
+              Aliberk Olukkaya
+            </span>
+            , a Computer Engineering graduate focused on building{" "}
+            <span className="font-semibold text-white">
+              practical AI-powered products
+            </span>
+            , data systems, and reliable software.
           </p>
-          <span className="mt-8 h-px w-24 bg-gradient-to-r from-purple-500 to-transparent" />
+
+          {/* Paragraph 2 */}
+          <p
+            className="
+              mt-7
+              max-w-3xl
+
+              font-body
+              text-[19px]
+              font-medium
+              leading-[1.75]
+              tracking-[-0.015em]
+              text-white/70
+
+              md:text-[21px]
+            "
+          >
+            I prefer learning by building real projects rather than keeping
+            concepts purely theoretical. My work spans{" "}
+            <span className="text-purple-200">
+              Python
+            </span>
+            , machine learning, deep learning, backend systems, databases,
+            APIs, and modern web interfaces.
+          </p>
+
+          {/* Paragraph 3 */}
+          <p
+            className="
+              mt-7
+              max-w-3xl
+
+              font-body
+              text-[19px]
+              font-medium
+              leading-[1.75]
+              tracking-[-0.015em]
+              text-white/70
+
+              md:text-[21px]
+            "
+          >
+            What matters to me is not only making something work, but building
+            software that is{" "}
+            <span className="font-semibold text-white">
+              maintainable, useful, and ready to grow
+            </span>
+            . My current direction is centered around AI engineering, data
+            engineering, and Python development.
+          </p>
+
+          {/* Bottom focus/status */}
+          <div
+            className="
+              mt-10 flex flex-wrap
+              items-center gap-x-6 gap-y-4
+              border-t border-white/[0.08]
+              pt-7
+            "
+          >
+            <div className="flex items-center gap-2.5">
+              <span className="relative flex h-2.5 w-2.5">
+                <span
+                  className="
+                    absolute inline-flex
+                    h-full w-full
+                    animate-ping
+                    rounded-full
+                    bg-emerald-400
+                    opacity-50
+                  "
+                />
+
+                <Circle
+                  size={10}
+                  fill="currentColor"
+                  className="relative text-emerald-400"
+                  aria-hidden="true"
+                />
+              </span>
+
+              <span
+                className="
+                  font-heading
+                  text-[14px]
+                  font-bold
+                  text-white
+                "
+              >
+                Open to AI & Data roles
+              </span>
+            </div>
+
+            <span className="hidden h-4 w-px bg-white/15 sm:block" />
+
+            <span
+              className="
+                font-mono
+                text-[10px]
+                uppercase
+                tracking-[0.2em]
+                text-white/35
+              "
+            >
+              AI Engineering · Data Engineering · Python
+            </span>
+          </div>
         </motion.div>
       </motion.div>
     </section>

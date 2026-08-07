@@ -4,7 +4,6 @@ import SectionHeading from "@/components/SectionHeading";
 import { RevealGroup, RevealItem } from "@/components/Reveal";
 import { skills } from "@/lib/content";
 import {
-  ArrowUpRight,
   BrainCircuit,
   Code2,
   Database,
@@ -30,7 +29,14 @@ const skillMeta = [
 
 export default function Skills() {
   return (
-    <section id="skills" className="min-w-0 py-20 lg:py-28">
+    <section
+      id="skills"
+      className="
+        min-w-0
+        py-20
+        lg:py-28
+      "
+    >
       <SectionHeading
         index="02 / Skills"
         title="Engineering toolkit"
@@ -39,7 +45,7 @@ export default function Skills() {
 
       <RevealGroup
         className="
-          grid gap-6
+          grid gap-5
           sm:grid-cols-2
           lg:grid-cols-1
           2xl:grid-cols-2
@@ -53,160 +59,144 @@ export default function Skills() {
             <RevealItem key={skillGroup.group}>
               <article
                 className="
-                  group relative isolate
-                  min-h-[390px] overflow-hidden
-                  rounded-[32px]
-                  border border-white/[0.08]
-                  bg-[#050509]
-                  px-7 py-8
+                  group relative
+                  min-h-[340px]
+                  overflow-hidden
+                  rounded-[28px]
 
-                  shadow-[0_28px_80px_-45px_rgba(0,0,0,0.95)]
+                  border border-black/10
+                  bg-[#f4f1f7]
 
-                  transition-[transform,border-color,box-shadow]
-                  duration-700
+                  px-7 py-7
+
+                  shadow-[0_24px_60px_-34px_rgba(0,0,0,0.55)]
+
+                  transition-all
+                  duration-500
                   ease-[cubic-bezier(0.16,1,0.3,1)]
 
-                  hover:-translate-y-2
-                  hover:scale-[1.015]
-                  hover:border-purple-400/25
-                  hover:shadow-[0_35px_95px_-42px_rgba(109,64,224,0.55)]
+                  hover:-translate-y-1.5
+                  hover:scale-[1.01]
+                  hover:border-purple-400/35
+
+                  hover:shadow-[0_28px_70px_-32px_rgba(124,58,237,0.28)]
                 "
               >
-                {/* Alt taraftaki mor-mavi ışık */}
+                {/* subtle accent */}
                 <div
                   aria-hidden="true"
                   className="
-                    pointer-events-none absolute
-                    -bottom-28 -left-16 right-[-4rem]
-                    h-64 rounded-full
+                    pointer-events-none
+                    absolute -bottom-20 -right-16
 
-                    bg-[radial-gradient(circle_at_30%_50%,rgba(36,132,198,0.55),transparent_38%),radial-gradient(circle_at_72%_55%,rgba(109,64,224,0.75),transparent_42%),radial-gradient(circle_at_95%_60%,rgba(192,38,211,0.48),transparent_35%)]
+                    h-48 w-48
+                    rounded-full
 
-                    blur-3xl
-                    opacity-70
+                    bg-[radial-gradient(circle,rgba(139,92,246,0.18),rgba(99,102,241,0.08)_45%,transparent_72%)]
 
-                    transition-[opacity,transform]
+                    blur-[46px]
+
+                    transition-transform
                     duration-700
-                    ease-[cubic-bezier(0.16,1,0.3,1)]
 
-                    group-hover:translate-y-[-10px]
                     group-hover:scale-110
-                    group-hover:opacity-100
                   "
                 />
 
-                {/* İç yüzey parlaması */}
-                <div
-                  aria-hidden="true"
-                  className="
-                    pointer-events-none absolute inset-0
-                    rounded-[inherit]
-
-                    bg-[linear-gradient(145deg,rgba(255,255,255,0.035),transparent_35%,transparent_70%,rgba(157,120,255,0.045))]
-                  "
-                />
-
-                <div className="relative z-10 flex h-full flex-col">
-                  {/* İkon */}
+                <div className="relative z-10">
+                  {/* icon */}
                   <div
                     className="
-                      mb-10 flex h-14 w-14
+                      flex h-12 w-12
                       items-center justify-center
-                      rounded-full
 
-                      border border-white/[0.08]
-                      bg-[linear-gradient(145deg,#1b1d2c,#090a12)]
-                      text-white
+                      rounded-2xl
 
-                      shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_12px_30px_-14px_rgba(99,102,241,0.7)]
+                      border border-black/10
+                      bg-white
 
-                      transition-transform duration-700
-                      ease-[cubic-bezier(0.16,1,0.3,1)]
+                      text-purple-700
 
-                      group-hover:rotate-3
-                      group-hover:scale-110
+                      shadow-sm
                     "
                   >
-                    <Icon size={22} strokeWidth={1.8} aria-hidden="true" />
+                    <Icon
+                      size={22}
+                      strokeWidth={1.9}
+                      aria-hidden="true"
+                    />
                   </div>
 
-                  {/* Başlık */}
+                  {/* title */}
                   <h3
                     className="
-                      font-heading text-[25px]
-                      font-bold tracking-[-0.04em]
-                      text-white
+                      mt-7
+
+                      font-heading
+                      text-[26px]
+                      font-bold
+                      tracking-[-0.045em]
+
+                      text-[#121018]
                     "
                   >
                     {skillGroup.group}
                   </h3>
 
-                  {/* Açıklama */}
+                  {/* description */}
                   <p
                     className="
-                      mt-3 max-w-sm
-                      font-body text-[15px]
-                      leading-[1.7]
-                      text-white/55
+                      mt-3
+                      max-w-sm
+
+                      font-body
+                      text-[16px]
+                      font-medium
+                      leading-[1.75]
+
+                      text-[#625d6d]
                     "
                   >
                     {meta.description}
                   </p>
 
-                  {/* Teknolojiler */}
-                  <ul className="mt-7 flex flex-wrap gap-x-4 gap-y-3">
+                  {/* technologies */}
+                  <ul
+                    className="
+                      mt-7
+                      flex flex-wrap
+                      gap-2.5
+                    "
+                  >
                     {skillGroup.items.map((item) => (
                       <li
                         key={item}
                         className="
-                          relative pl-3
-                          font-mono text-xs
-                          font-semibold text-white/70
+                          rounded-full
 
-                          transition-colors duration-300
+                          border border-black/[0.10]
+                          bg-white
 
-                          before:absolute
-                          before:left-0 before:top-1/2
-                          before:h-1 before:w-1
-                          before:-translate-y-1/2
-                          before:rotate-45
-                          before:bg-purple-400/80
+                          px-3.5 py-2
 
-                          group-hover:text-white
+                          font-mono
+                          text-[13px]
+                          font-semibold
+
+                          text-[#403a4a]
+
+                          shadow-[0_4px_14px_-10px_rgba(0,0,0,0.35)]
+
+                          transition-all
+                          duration-300
+
+                          group-hover:border-purple-400/25
                         "
                       >
                         {item}
                       </li>
                     ))}
                   </ul>
-
-                  {/* Alt bağlantı hissi */}
-                  <div
-                    className="
-                      mt-auto flex items-center gap-2
-                      pt-9
-
-                      font-heading text-sm
-                      font-semibold text-white/75
-
-                      transition-colors duration-300
-                      group-hover:text-white
-                    "
-                  >
-                    Explore toolkit
-
-                    <ArrowUpRight
-                      size={17}
-                      aria-hidden="true"
-                      className="
-                        transition-transform duration-500
-                        ease-[cubic-bezier(0.16,1,0.3,1)]
-
-                        group-hover:-translate-y-0.5
-                        group-hover:translate-x-1
-                      "
-                    />
-                  </div>
                 </div>
               </article>
             </RevealItem>

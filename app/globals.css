@@ -152,3 +152,73 @@ body {
     pointer-events: none;
   }
 }
+/* =========================================================
+   LIGHTSABER SCROLLBAR
+========================================================= */
+
+/* Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #a855f7 #050507;
+}
+
+/* Chrome / Edge / Safari */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  background: #050507;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+
+  border: 3px solid #050507;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #e9d5ff 12%,
+      #c084fc 32%,
+      #a855f7 55%,
+      #9333ea 78%,
+      #ffffff 100%
+    );
+
+  box-shadow:
+    0 0 4px rgba(255, 255, 255, 1),
+    0 0 8px rgba(216, 180, 254, 1),
+    0 0 14px rgba(168, 85, 247, 0.95),
+    0 0 24px rgba(147, 51, 234, 0.75);
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #f5e9ff 10%,
+      #d8b4fe 28%,
+      #c084fc 48%,
+      #a855f7 72%,
+      #ffffff 100%
+    );
+
+  box-shadow:
+    0 0 5px rgba(255, 255, 255, 1),
+    0 0 10px rgba(233, 213, 255, 1),
+    0 0 20px rgba(192, 132, 252, 1),
+    0 0 34px rgba(168, 85, 247, 0.95);
+}
+
+/* Optional scrollbar corner */
+html::-webkit-scrollbar-corner,
+body::-webkit-scrollbar-corner {
+  background: #050507;
+}

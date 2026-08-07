@@ -7,7 +7,6 @@ import {
   Download,
   Github,
   Linkedin,
-  MapPin,
   Sparkles,
 } from "lucide-react";
 import Hls from "hls.js";
@@ -60,9 +59,11 @@ export default function Hero() {
       opacity: 0,
       y: reduceMotion ? 0 : 28,
     },
+
     visible: {
       opacity: 1,
       y: 0,
+
       transition: {
         duration: 0.7,
         ease: [0.16, 1, 0.3, 1],
@@ -81,15 +82,14 @@ export default function Hero() {
         text-center
       "
     >
-      {/* Hero sınırları içindeki ortam ışıkları */}
       <AmbientBackground />
 
-      {/* Hareketli video */}
+      {/* Background video */}
       <div
         aria-hidden="true"
         className="
-          pointer-events-none absolute
-          inset-0 z-10
+          pointer-events-none
+          absolute inset-0 z-10
           overflow-hidden
         "
       >
@@ -107,7 +107,7 @@ export default function Hero() {
           "
         />
 
-        {/* Videoyu okunabilir hâle getiren koyu katman */}
+        {/* Video readability layer */}
         <div
           className="
             absolute inset-0
@@ -115,7 +115,7 @@ export default function Hero() {
           "
         />
 
-        {/* Kenar karartması */}
+        {/* Edge darkening */}
         <div
           className="
             absolute inset-0
@@ -123,7 +123,7 @@ export default function Hero() {
           "
         />
 
-        {/* Üst cam parlaması */}
+        {/* Top highlight */}
         <div
           className="
             absolute inset-0
@@ -131,82 +131,64 @@ export default function Hero() {
           "
         />
 
-        {/* Siyah bölüme yumuşak geçiş */}
+        {/* Bottom transition */}
         <div
-  aria-hidden="true"
-  className="
-    absolute inset-x-0 bottom-0
-    h-[320px]
+          aria-hidden="true"
+          className="
+            absolute inset-x-0 bottom-0
+            h-[320px]
 
-    bg-gradient-to-b
-    from-transparent
-    via-black/65
-    via-[62%]
-    to-black
-  "
-/>
+            bg-gradient-to-b
+            from-transparent
+            via-black/65
+            via-[62%]
+            to-black
+          "
+        />
       </div>
 
-      {/* Hero içeriği */}
+      {/* Hero content */}
       <motion.div
         variants={container}
         initial="hidden"
         animate="visible"
         className="
           relative z-20
-          flex w-full max-w-3xl
+          flex w-full max-w-4xl
           flex-col items-center
         "
       >
-        {/* Uygunluk durumu */}
-        <motion.div
-          variants={item}
-          className="
-            mb-6 inline-flex items-center gap-2
-            rounded-full border border-white/15
-            bg-black/45 px-4 py-1.5
-            text-xs font-medium text-white/75
-            shadow-lg backdrop-blur-md
-          "
-        >
-          <span className="relative flex h-2 w-2">
-            <span
-              className="
-                absolute inline-flex h-full w-full
-                animate-ping rounded-full
-                bg-emerald-400 opacity-75
-              "
-            />
-
-            <span
-              className="
-                relative inline-flex h-2 w-2
-                rounded-full bg-emerald-400
-              "
-            />
-          </span>
-
-          Open to AI &amp; Data Engineering roles
-        </motion.div>
-
+        {/* Intro */}
         <motion.p
           variants={item}
           className="
-            mb-4 flex items-center gap-2
-            font-mono text-sm font-medium
-            tracking-wide text-purple-300
+            mb-6 flex items-center gap-2.5
+
+            font-mono
+            text-[15px]
+            font-semibold
+            tracking-wide
+            text-purple-300
           "
         >
-          <Sparkles size={14} aria-hidden="true" />
+          <Sparkles size={15} aria-hidden="true" />
           Hi, I&apos;m
         </motion.p>
 
+        {/* Name */}
         <motion.h1
           variants={item}
           className="
-            text-outline-black text-balance
-            font-heading text-7xl font-bold
-            tracking-tight text-white
+            text-outline-black
+            text-balance
+
+            font-heading
+            text-7xl
+            font-bold
+            leading-[0.95]
+            tracking-tight
+            text-white
+
             sm:text-8xl
             md:text-9xl
           "
@@ -214,14 +196,20 @@ export default function Hero() {
           {profile.name}
         </motion.h1>
 
+        {/* Role */}
         <motion.h2
           variants={item}
           className="
-            mt-5 font-heading text-4xl
-            font-semibold tracking-tight
+            mt-8
+
+            font-heading
+            text-[34px]
+            font-semibold
+            tracking-[-0.035em]
             text-white
-            sm:text-5xl
-            md:text-6xl
+
+            sm:text-[39px]
+            md:text-[46px]
           "
         >
           <span className="text-outline-black">
@@ -229,54 +217,64 @@ export default function Hero() {
           </span>
         </motion.h2>
 
+        {/* Description */}
         <motion.p
           variants={item}
           className="
-            text-outline-black mt-7
-            max-w-2xl text-pretty
-            font-body text-xl font-medium
-            leading-relaxed text-white
-            sm:text-2xl
-            md:text-3xl
+            text-outline-black
+
+            mt-6
+            max-w-[720px]
+            text-pretty
+
+            font-body
+            text-[19px]
+            font-medium
+            leading-[1.5]
+            tracking-[-0.015em]
+            text-white/90
+
+            sm:text-[21px]
+            md:text-[23px]
           "
         >
           Building practical AI-powered and data-driven products
         </motion.p>
 
+        {/* Main buttons */}
         <motion.div
           variants={item}
           className="
-            mt-6 flex items-center gap-2
-            font-body text-base font-medium
-            text-white/85
-          "
-        >
-          <MapPin size={16} aria-hidden="true" />
-          {profile.location}
-        </motion.div>
-
-        {/* Ana bağlantılar */}
-        <motion.div
-          variants={item}
-          className="
-            mt-8 flex flex-col
-            items-center gap-3
+            mt-11 flex
+            flex-col items-center
+            gap-5
             sm:flex-row
           "
         >
           <a
             href="#projects"
             className="
-              group inline-flex w-full
-              items-center justify-center gap-2
-              rounded-xl bg-white
-              px-6 py-3
-              font-semibold text-black
+              group inline-flex
+              w-full items-center
+              justify-center gap-3
+
+              rounded-2xl
+              bg-white
+
+              px-9 py-[18px]
+
+              font-heading
+              text-[18px]
+              font-bold
+              text-black
+
               shadow-lg
 
-              transition-all duration-300
+              transition-all
+              duration-300
 
-              hover:-translate-y-0.5
+              hover:-translate-y-1
+              hover:scale-[1.03]
               hover:bg-white/90
               hover:shadow-glow
 
@@ -286,10 +284,12 @@ export default function Hero() {
             View Projects
 
             <ArrowRight
-              size={16}
+              size={19}
               aria-hidden="true"
               className="
-                transition-transform duration-300
+                transition-transform
+                duration-300
+
                 group-hover:translate-x-1
               "
             />
@@ -299,18 +299,32 @@ export default function Hero() {
             href="/Aliberk_Olukkaya_CV.pdf"
             download
             className="
-              inline-flex w-full
-              items-center justify-center gap-2
-              rounded-xl border border-purple-300/40
+              inline-flex
+              w-full items-center
+              justify-center gap-3
+
+              rounded-2xl
+              border border-purple-300/40
+
               bg-gradient-to-r
-              from-purple-600/85 to-indigo-600/85
-              px-6 py-3
-              font-semibold text-white
-              shadow-lg backdrop-blur-md
+              from-purple-600/90
+              to-indigo-600/90
 
-              transition-all duration-300
+              px-9 py-[18px]
 
-              hover:-translate-y-0.5
+              font-heading
+              text-[18px]
+              font-bold
+              text-white
+
+              shadow-lg
+              backdrop-blur-md
+
+              transition-all
+              duration-300
+
+              hover:-translate-y-1
+              hover:scale-[1.03]
               hover:from-purple-500
               hover:to-indigo-500
               hover:shadow-glow
@@ -319,16 +333,18 @@ export default function Hero() {
             "
           >
             Download CV
-            <Download size={16} aria-hidden="true" />
+
+            <Download size={19} aria-hidden="true" />
           </a>
         </motion.div>
 
-        {/* Sosyal bağlantılar */}
+        {/* Social links */}
         <motion.div
           variants={item}
           className="
-            mt-4 flex items-center
-            justify-center gap-3
+            mt-6 flex
+            items-center justify-center
+            gap-4
           "
         >
           <a
@@ -336,20 +352,32 @@ export default function Hero() {
             target="_blank"
             rel="noopener noreferrer"
             className="
-              inline-flex items-center gap-2
-              rounded-xl border border-white/15
-              bg-black/45 px-5 py-2.5
-              text-sm font-semibold text-white
-              shadow-lg backdrop-blur-md
+              inline-flex
+              items-center gap-2.5
 
-              transition-all duration-300
+              rounded-xl
+              border border-white/15
 
-              hover:-translate-y-0.5
+              bg-black/45
+              px-7 py-3.5
+
+              text-[16px]
+              font-semibold
+              text-white
+
+              shadow-lg
+              backdrop-blur-md
+
+              transition-all
+              duration-300
+
+              hover:-translate-y-1
+              hover:scale-[1.03]
               hover:border-purple-400/60
               hover:bg-purple-500/15
             "
           >
-            <Github size={16} aria-hidden="true" />
+            <Github size={19} aria-hidden="true" />
             GitHub
           </a>
 
@@ -358,26 +386,38 @@ export default function Hero() {
             target="_blank"
             rel="noopener noreferrer"
             className="
-              inline-flex items-center gap-2
-              rounded-xl border border-white/15
-              bg-black/45 px-5 py-2.5
-              text-sm font-semibold text-white
-              shadow-lg backdrop-blur-md
+              inline-flex
+              items-center gap-2.5
 
-              transition-all duration-300
+              rounded-xl
+              border border-white/15
 
-              hover:-translate-y-0.5
+              bg-black/45
+              px-7 py-3.5
+
+              text-[16px]
+              font-semibold
+              text-white
+
+              shadow-lg
+              backdrop-blur-md
+
+              transition-all
+              duration-300
+
+              hover:-translate-y-1
+              hover:scale-[1.03]
               hover:border-purple-400/60
               hover:bg-purple-500/15
             "
           >
-            <Linkedin size={16} aria-hidden="true" />
+            <Linkedin size={19} aria-hidden="true" />
             LinkedIn
           </a>
         </motion.div>
       </motion.div>
 
-      {/* Aşağı kaydırma işareti */}
+      {/* Scroll indicator */}
       {!reduceMotion && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -401,9 +441,15 @@ export default function Hero() {
             }}
             className="
               grid h-10 w-6
-              place-items-start justify-center
-              rounded-full border border-white/25
-              bg-black/20 pt-2
+              place-items-start
+              justify-center
+
+              rounded-full
+              border border-white/25
+
+              bg-black/20
+              pt-2
+
               backdrop-blur-sm
             "
           >
