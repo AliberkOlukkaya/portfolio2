@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import type { ReactNode } from "react";
 
 type RevealProps = {
@@ -10,24 +10,26 @@ type RevealProps = {
   className?: string;
 };
 
-// Scroll-triggered fade+rise. Animates once when it enters the viewport.
 export default function Reveal({
   children,
   delay = 0,
   y = 24,
   className,
 }: RevealProps) {
-  const reduce = useReducedMotion();
-
   const variants: Variants = {
-    hidden: { opacity: 0, y: reduce ? 0 : y },
+    hidden: {
+      opacity: 0,
+      y,
+    },
+
     visible: {
       opacity: 1,
       y: 0,
+
       transition: {
         duration: 0.6,
         delay,
-        ease: [0.16, 1, 0.3, 1], // expo.out
+        ease: [0.16, 1, 0.3, 1],
       },
     },
   };
@@ -38,14 +40,16 @@ export default function Reveal({
       variants={variants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{
+        once: true,
+        margin: "-80px",
+      }}
     >
       {children}
     </motion.div>
   );
 }
 
-// Staggered container for lists/grids.
 export function RevealGroup({
   children,
   className,
@@ -60,10 +64,17 @@ export function RevealGroup({
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-60px" }}
+      viewport={{
+        once: true,
+        margin: "-60px",
+      }}
       variants={{
         hidden: {},
-        visible: { transition: { staggerChildren: stagger } },
+        visible: {
+          transition: {
+            staggerChildren: stagger,
+          },
+        },
       }}
     >
       {children}
@@ -80,16 +91,23 @@ export function RevealItem({
   className?: string;
   y?: number;
 }) {
-  const reduce = useReducedMotion();
   return (
     <motion.div
       className={className}
       variants={{
-        hidden: { opacity: 0, y: reduce ? 0 : y },
+        hidden: {
+          opacity: 0,
+          y,
+        },
+
         visible: {
           opacity: 1,
           y: 0,
-          transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+
+          transition: {
+            duration: 0.5,
+            ease: [0.16, 1, 0.3, 1],
+          },
         },
       }}
     >

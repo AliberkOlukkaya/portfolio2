@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   Download,
@@ -27,8 +27,24 @@ const container = {
   },
 };
 
+const item = {
+  hidden: {
+    opacity: 0,
+    y: 28,
+  },
+
+  visible: {
+    opacity: 1,
+    y: 0,
+
+    transition: {
+      duration: 0.7,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
 export default function Hero() {
-  const reduceMotion = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -53,23 +69,6 @@ export default function Hero() {
       video.src = HLS_SRC;
     }
   }, []);
-
-  const item = {
-    hidden: {
-      opacity: 0,
-      y: reduceMotion ? 0 : 28,
-    },
-
-    visible: {
-      opacity: 1,
-      y: 0,
-
-      transition: {
-        duration: 0.7,
-        ease: [0.16, 1, 0.3, 1],
-      },
-    },
-  };
 
   return (
     <section
@@ -418,45 +417,43 @@ export default function Hero() {
       </motion.div>
 
       {/* Scroll indicator */}
-      {!reduceMotion && (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          delay: 1.4,
+        }}
+        className="
+          absolute bottom-8 left-1/2 z-20
+          -translate-x-1/2
+        "
+      >
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={{
+            y: [0, 8, 0],
+          }}
           transition={{
-            delay: 1.4,
+            duration: 1.8,
+            repeat: Infinity,
+            ease: "easeInOut",
           }}
           className="
-            absolute bottom-8 left-1/2 z-20
-            -translate-x-1/2
+            grid h-10 w-6
+            place-items-start
+            justify-center
+
+            rounded-full
+            border border-white/25
+
+            bg-black/20
+            pt-2
+
+            backdrop-blur-sm
           "
         >
-          <motion.div
-            animate={{
-              y: [0, 8, 0],
-            }}
-            transition={{
-              duration: 1.8,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="
-              grid h-10 w-6
-              place-items-start
-              justify-center
-
-              rounded-full
-              border border-white/25
-
-              bg-black/20
-              pt-2
-
-              backdrop-blur-sm
-            "
-          >
-            <span className="h-2 w-1 rounded-full bg-purple-300" />
-          </motion.div>
+          <span className="h-2 w-1 rounded-full bg-purple-300" />
         </motion.div>
-      )}
+      </motion.div>
     </section>
   );
 }

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import {
   AnimatePresence,
   motion,
-  useReducedMotion,
 } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
@@ -49,8 +48,6 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolledPastHero, setScrolledPastHero] = useState(false);
   const [activeSection, setActiveSection] = useState("top");
-
-  const reduceMotion = useReducedMotion();
 
   /*
     Hero tamamen geçildikten sonra
@@ -153,7 +150,7 @@ export default function Navbar() {
     <>
       <motion.header
         initial={{
-          y: reduceMotion ? 0 : -70,
+          y: -70,
           opacity: 0,
         }}
         animate={{
@@ -288,7 +285,6 @@ export default function Navbar() {
                   >
                     {link.label}
 
-                    {/* Aktif section çizgisi */}
                     <span
                       aria-hidden="true"
                       className={`
