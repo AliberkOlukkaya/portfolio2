@@ -1,6 +1,7 @@
 "use client";
 
 import type { Project } from "@/lib/content";
+import type { Locale } from "@/lib/i18n";
 
 import {
   ArrowUpRight,
@@ -10,8 +11,10 @@ import {
 
 export default function ProjectDetails({
   project,
+  locale,
 }: {
   project: Project;
+  locale: Locale;
 }) {
   return (
     <div className="max-w-[470px]">
@@ -153,7 +156,7 @@ export default function ProjectDetails({
                 hover:text-white
               "
             >
-              Live demo
+              {locale === "tr" ? "Canlı demo" : "Live demo"}
 
               <ArrowUpRight
                 size={17}
@@ -200,7 +203,7 @@ export default function ProjectDetails({
                 aria-hidden="true"
               />
 
-              Source
+              {locale === "tr" ? "Kaynak" : "Source"}
             </a>
           )}
         </div>

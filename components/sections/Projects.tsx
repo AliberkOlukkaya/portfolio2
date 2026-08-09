@@ -4,11 +4,10 @@ import * as React from "react";
 import {
   AnimatePresence,
   motion,
-  useReducedMotion,
 } from "framer-motion";
 
 import Reveal from "@/components/Reveal";
-import { projects } from "@/lib/content";
+import { dictionaries, getProjects, type Locale } from "@/lib/i18n";
 
 import ProjectTabs from "@/components/sections/projects/ProjectTabs";
 import ProjectDetails from "@/components/sections/projects/ProjectDetails";
@@ -59,15 +58,15 @@ const stackColors = [
   },
 ];
 
-export default function Projects() {
-  const reduce = useReducedMotion();
+export default function Projects({ locale }: { locale: Locale }) {
+  const copy = dictionaries[locale].projects;
 
   const featuredProjects = React.useMemo(
     () =>
-      projects.filter(
+      getProjects(locale).filter(
         (project) => project.id !== "portfolio",
       ),
-    [],
+    [locale],
   );
 
   const [activeId, setActiveId] = React.useState(
@@ -79,35 +78,9 @@ export default function Projects() {
       (project) => project.id === activeId,
     ) ?? featuredProjects[0]!;
 
-  const enter = reduce
-    ? {
-        opacity: 1,
-      }
-    : {
-        opacity: 1,
-        y: 0,
-        filter: "blur(0px)",
-      };
-
-  const from = reduce
-    ? {
-        opacity: 0,
-      }
-    : {
-        opacity: 0,
-        y: 12,
-        filter: "blur(6px)",
-      };
-
-  const exit = reduce
-    ? {
-        opacity: 0,
-      }
-    : {
-        opacity: 0,
-        y: -12,
-        filter: "blur(6px)",
-      };
+  const enter = { opacity: 1, y: 0, filter: "blur(0px)" };
+  const from = { opacity: 0, y: 12, filter: "blur(6px)" };
+  const exit = { opacity: 0, y: -12, filter: "blur(6px)" };
 
   return (
     <section
@@ -141,11 +114,11 @@ export default function Projects() {
             scale-[1.06]
 
             bg-[url('/contact-bg.png')]
-            bg-cover
-            bg-center
+            bg-[length:100%_auto]
+            bg-top
             bg-no-repeat
 
-            opacity-[0.17]
+            opacity-[0.23]
           "
         />
 
@@ -227,7 +200,7 @@ export default function Projects() {
         <div
           className="
             absolute inset-0
-            bg-black/26
+            bg-black/[0.18]
           "
         />
       </div>
@@ -275,7 +248,7 @@ export default function Projects() {
               text-purple-300
             "
           >
-            Selected Work
+            {copy.eyebrow}
           </p>
 
           <h2
@@ -290,7 +263,7 @@ export default function Projects() {
               sm:text-5xl
             "
           >
-            Featured Projects
+            {copy.title}
           </h2>
 
           <span
@@ -373,6 +346,8 @@ export default function Projects() {
 
             gap-10
 
+            lg:min-h-[560px]
+
             lg:grid-cols-[minmax(330px,0.8fr)_205px_minmax(0,1.45fr)]
             lg:gap-10
 
@@ -412,6 +387,7 @@ export default function Projects() {
               >
                 <ProjectDetails
                   project={active}
+                  locale={locale}
                 />
               </motion.div>
             </AnimatePresence>
@@ -451,7 +427,7 @@ export default function Projects() {
                   text-white/85
                 "
               >
-                Technology Stack
+                {copy.stack}
               </p>
 
               <div

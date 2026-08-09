@@ -3,7 +3,6 @@
 import { FormEvent, useState } from "react";
 import {
   motion,
-  useReducedMotion,
 } from "framer-motion";
 
 import {
@@ -16,9 +15,10 @@ import {
 } from "lucide-react";
 
 import { profile } from "@/lib/content";
+import { dictionaries, type Locale } from "@/lib/i18n";
 
-export default function Contact() {
-  const reduceMotion = useReducedMotion();
+export default function Contact({ locale }: { locale: Locale }) {
+  const copy = dictionaries[locale].contact;
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -283,7 +283,7 @@ export default function Contact() {
         <motion.div
           initial={{
             opacity: 0,
-            x: reduceMotion ? 0 : -34,
+            x: -34,
           }}
           whileInView={{
             opacity: 1,
@@ -324,7 +324,7 @@ export default function Contact() {
                 text-purple-300
               "
             >
-              Get in touch
+              {copy.eyebrow}
             </p>
           </div>
 
@@ -348,9 +348,9 @@ export default function Contact() {
               xl:text-[76px]
             "
           >
-            Let&apos;s build
+            {copy.line1}
             <br />
-            something{" "}
+            {copy.line2}{" "}
 
             <span
               className="
@@ -363,7 +363,7 @@ export default function Contact() {
                 text-transparent
               "
             >
-              meaningful.
+              {copy.accent}
             </span>
           </h2>
 
@@ -381,10 +381,7 @@ export default function Contact() {
               sm:text-[19px]
             "
           >
-            Have an idea, a project, or an opportunity in AI,
-            data, or software engineering? Feel free to reach
-            out. I&apos;m always interested in interesting
-            problems and meaningful collaborations.
+            {copy.description}
           </p>
 
           <div className="mt-10">
@@ -399,7 +396,7 @@ export default function Contact() {
                 text-white/35
               "
             >
-              Direct contact
+              {copy.direct}
             </p>
 
             <a
@@ -537,8 +534,8 @@ export default function Contact() {
         <motion.div
           initial={{
             opacity: 0,
-            x: reduceMotion ? 0 : 34,
-            y: reduceMotion ? 0 : 14,
+            x: 34,
+            y: 14,
           }}
           whileInView={{
             opacity: 1,
@@ -697,7 +694,7 @@ export default function Contact() {
                     text-purple-200/90
                   "
                 >
-                  Message
+                  {copy.message}
                 </p>
 
                 <h3
@@ -714,7 +711,7 @@ export default function Contact() {
                     sm:text-[35px]
                   "
                 >
-                  Start a conversation
+                  {copy.start}
                 </h3>
               </div>
 
@@ -726,7 +723,7 @@ export default function Contact() {
                     htmlFor="contact-name"
                     className="sr-only"
                   >
-                    Name
+                    {copy.name}
                   </label>
 
                   <input
@@ -737,7 +734,7 @@ export default function Contact() {
                     onChange={(event) =>
                       setName(event.target.value)
                     }
-                    placeholder="Your name"
+                    placeholder={copy.namePlaceholder}
                     className={inputClass}
                   />
                 </div>
@@ -749,7 +746,7 @@ export default function Contact() {
                     htmlFor="contact-email"
                     className="sr-only"
                   >
-                    Email
+                    {copy.email}
                   </label>
 
                   <input
@@ -772,7 +769,7 @@ export default function Contact() {
                     htmlFor="contact-message"
                     className="sr-only"
                   >
-                    Message
+                    {copy.messageLabel}
                   </label>
 
                   <textarea
@@ -782,7 +779,7 @@ export default function Contact() {
                     onChange={(event) =>
                       setMessage(event.target.value)
                     }
-                    placeholder="Tell me about your idea, project or opportunity..."
+                    placeholder={copy.messagePlaceholder}
                     rows={9}
                     className={textareaClass}
                   />
@@ -875,7 +872,7 @@ export default function Contact() {
                     group-hover/button:text-white
                   "
                 >
-                  Send message
+                  {copy.send}
                 </span>
 
                 <Send
@@ -908,7 +905,7 @@ export default function Contact() {
                   text-white/45
                 "
               >
-                Opens your default email client
+                {copy.mailHint}
               </p>
             </form>
           </div>
@@ -964,7 +961,7 @@ export default function Contact() {
             hover:text-purple-300
           "
         >
-          Back to top ↑
+          {copy.back}
         </a>
       </div>
     </footer>

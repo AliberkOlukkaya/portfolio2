@@ -13,6 +13,7 @@ import Hls from "hls.js";
 
 import AmbientBackground from "@/components/AmbientBackground";
 import { profile } from "@/lib/content";
+import { dictionaries, type Locale } from "@/lib/i18n";
 
 const HLS_SRC =
   "https://stream.mux.com/8wrHPCX2dC3msyYU9ObwqNdm00u3ViXvOSHUMRYSEe5Q.m3u8";
@@ -44,7 +45,8 @@ const item = {
   },
 };
 
-export default function Hero() {
+export default function Hero({ locale }: { locale: Locale }) {
+  const copy = dictionaries[locale].hero;
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -171,7 +173,7 @@ export default function Hero() {
           "
         >
           <Sparkles size={15} aria-hidden="true" />
-          Hi, I&apos;m
+          {copy.intro}
         </motion.p>
 
         {/* Name */}
@@ -212,7 +214,7 @@ export default function Hero() {
           "
         >
           <span className="text-outline-black">
-            {profile.role}
+            {copy.role}
           </span>
         </motion.h2>
 
@@ -237,7 +239,7 @@ export default function Hero() {
             md:text-[23px]
           "
         >
-          Building practical AI-powered and data-driven products
+          {copy.description}
         </motion.p>
 
         {/* Main buttons */}
@@ -280,7 +282,7 @@ export default function Hero() {
               sm:w-auto
             "
           >
-            View Projects
+            {copy.projects}
 
             <ArrowRight
               size={19}
@@ -331,7 +333,7 @@ export default function Hero() {
               sm:w-auto
             "
           >
-            Download CV
+            {copy.cv}
 
             <Download size={19} aria-hidden="true" />
           </a>

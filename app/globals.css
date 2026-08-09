@@ -53,6 +53,26 @@ body {
   overflow-x: hidden;
 }
 
+/*
+ * Desktop density calibration
+ *
+ * Chrome's 67% page zoom gives the layout a wider logical viewport and then
+ * scales the complete result back into the physical screen. Applying the
+ * factor to individual components changes wrapping and grid proportions, so
+ * the desktop page is kept at its original design dimensions and calibrated
+ * as one canvas instead.
+ */
+@media (min-width: 1280px) {
+  .desktop-scale-canvas {
+    width: 100%;
+    zoom: 0.67;
+  }
+
+  .desktop-scale-canvas #top {
+    min-height: calc(100dvh / 0.67);
+  }
+}
+
 /* Custom selection */
 ::selection {
   background: rgba(214, 79, 240, 0.32);

@@ -1,9 +1,10 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Braces, BriefcaseBusiness, Code2 } from "lucide-react";
 
-import { experience, skills } from "@/lib/content";
+import { skills } from "@/lib/content";
+import { dictionaries, getExperience, type Locale } from "@/lib/i18n";
 
 const skillNames: Record<string, string> = {
   Programming: "programming",
@@ -329,8 +330,9 @@ function SkillsCode() {
 /* EXPERIENCE CODE                                   */
 /* ------------------------------------------------ */
 
-function ExperienceCode() {
+function ExperienceCode({ locale }: { locale: Locale }) {
   let line = 1;
+  const experience = getExperience(locale);
 
   return (
     <>
@@ -513,8 +515,8 @@ function ExperienceCode() {
 /* MAIN COMPONENT                                    */
 /* ------------------------------------------------ */
 
-export default function CareerConsole() {
-  const reduceMotion = useReducedMotion();
+export default function CareerConsole({ locale }: { locale: Locale }) {
+  const copy = dictionaries[locale].career;
 
   return (
     <section
@@ -578,7 +580,7 @@ export default function CareerConsole() {
         <motion.div
           initial={{
             opacity: 0,
-            y: reduceMotion ? 0 : 24,
+            y: 24,
           }}
           whileInView={{
             opacity: 1,
@@ -608,7 +610,7 @@ export default function CareerConsole() {
               text-purple-300
             "
           >
-            02 / Career
+            {copy.eyebrow}
           </p>
 
           <h2
@@ -626,7 +628,7 @@ export default function CareerConsole() {
               lg:text-[64px]
             "
           >
-            Skills & Experience
+            {copy.title}
           </h2>
 
           <p
@@ -644,8 +646,7 @@ export default function CareerConsole() {
               sm:text-[18px]
             "
           >
-            The technologies I work with and the experience
-            behind the projects I build.
+            {copy.description}
           </p>
         </motion.div>
 
@@ -662,7 +663,7 @@ export default function CareerConsole() {
           <motion.div
             initial={{
               opacity: 0,
-              x: reduceMotion ? 0 : -30,
+              x: -30,
             }}
             whileInView={{
               opacity: 1,
@@ -694,7 +695,7 @@ export default function CareerConsole() {
                   text-white
                 "
               >
-                Engineering Toolkit
+                {copy.toolkit}
               </h3>
             </div>
 
@@ -716,7 +717,7 @@ export default function CareerConsole() {
             id="experience"
             initial={{
               opacity: 0,
-              x: reduceMotion ? 0 : 30,
+              x: 30,
             }}
             whileInView={{
               opacity: 1,
@@ -746,7 +747,7 @@ export default function CareerConsole() {
                   text-white
                 "
               >
-                Selected Experience
+                {copy.experience}
               </h3>
             </div>
 
@@ -759,7 +760,7 @@ export default function CareerConsole() {
                 />
               }
             >
-              <ExperienceCode />
+              <ExperienceCode locale={locale} />
             </MacCodeWindow>
           </motion.div>
         </div>

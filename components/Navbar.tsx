@@ -6,8 +6,9 @@ import {
   motion,
 } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { dictionaries, type Locale } from "@/lib/i18n";
 
-const links = [
+const linkDefinitions = [
   {
     href: "#top",
     label: "Home",
@@ -44,10 +45,17 @@ const observedSectionIds = [
   "contact",
 ];
 
-export default function Navbar() {
+export default function Navbar({ locale }: { locale: Locale }) {
+  const dictionary = dictionaries[locale];
+  const links = linkDefinitions.map((link, index) => ({ ...link, label: dictionary.nav[index] }));
   const [open, setOpen] = useState(false);
   const [scrolledPastHero, setScrolledPastHero] = useState(false);
   const [activeSection, setActiveSection] = useState("top");
+
+  const changeLocale = (nextLocale: Locale) => {
+    const hash = window.location.hash || "#top";
+    window.location.href = `/${nextLocale}${hash}`;
+  };
 
   /*
     Hero tamamen geçildikten sonra
@@ -328,7 +336,14 @@ export default function Navbar() {
           </ul>
 
           {/* Get in touch */}
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
+            <div className="hidden items-center rounded-full border border-white/15 bg-black/25 p-1 font-mono text-[13px] font-bold text-white/55 backdrop-blur-md md:flex">
+              {(["en", "tr"] as const).map((language) => (
+                <button key={language} type="button" onClick={() => changeLocale(language)} aria-pressed={locale === language} className={`rounded-full px-3 py-2 uppercase transition-all ${locale === language ? "bg-white text-black shadow-lg" : "hover:text-white"}`}>
+                  {language}
+                </button>
+              ))}
+            </div>
             <a
               href="#contact"
               className="
@@ -364,7 +379,7 @@ export default function Navbar() {
                 md:inline-flex
               "
             >
-              Get in touch
+              {dictionary.getInTouch}
             </a>
 
             {/* Mobile toggle */}
@@ -521,6 +536,14 @@ export default function Navbar() {
               })}
             </ul>
 
+            <div className="mt-3 flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.04] p-2 font-mono text-sm font-bold">
+              {(["en", "tr"] as const).map((language) => (
+                <button key={language} type="button" onClick={() => changeLocale(language)} className={`flex-1 rounded-xl px-4 py-3 uppercase ${locale === language ? "bg-white text-black" : "text-white/65"}`}>
+                  {language}
+                </button>
+              ))}
+            </div>
+
             <a
               href="#contact"
               onClick={() => setOpen(false)}
@@ -545,7 +568,7 @@ export default function Navbar() {
                 hover:bg-white/[0.14]
               "
             >
-              Get in touch
+              {dictionary.getInTouch}
             </a>
           </motion.div>
         )}

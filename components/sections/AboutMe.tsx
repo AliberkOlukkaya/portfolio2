@@ -1,17 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { Circle } from "lucide-react";
+import type { Locale } from "@/lib/i18n";
 
-export default function AboutMe() {
-  const reduce = useReducedMotion();
+export default function AboutMe({ locale }: { locale: Locale }) {
+  const isTr = locale === "tr";
 
   const photo: Variants = {
     hidden: {
       opacity: 0,
-      x: reduce ? 0 : -40,
-      scale: reduce ? 1 : 0.97,
+      x: -40,
+      scale: 0.97,
     },
     visible: {
       opacity: 1,
@@ -27,7 +28,7 @@ export default function AboutMe() {
   const content: Variants = {
     hidden: {
       opacity: 0,
-      x: reduce ? 0 : 40,
+      x: 40,
     },
     visible: {
       opacity: 1,
@@ -181,7 +182,7 @@ export default function AboutMe() {
               md:text-[60px]
             "
           >
-            About Me
+            {isTr ? "Hakkımda" : "About Me"}
           </h2>
 
           {/* Accent line */}
@@ -229,15 +230,7 @@ export default function AboutMe() {
               md:text-[21px]
             "
           >
-            I&apos;m{" "}
-            <span className="font-semibold text-white">
-              Aliberk Olukkaya
-            </span>
-            , a Computer Engineering graduate focused on building{" "}
-            <span className="font-semibold text-white">
-              practical AI-powered products
-            </span>
-            , data systems, and reliable software.
+            {isTr ? "Bilgisayar Mühendisliği mezunu Aliberk Olukkaya'yım. Pratik yapay zekâ ürünleri, veri sistemleri ve güvenilir yazılımlar geliştirmeye odaklanıyorum." : "I'm Aliberk Olukkaya, a Computer Engineering graduate focused on building practical AI-powered products, data systems, and reliable software."}
           </p>
 
           {/* Paragraph 2 */}
@@ -256,13 +249,7 @@ export default function AboutMe() {
               md:text-[21px]
             "
           >
-            I prefer learning by building real projects rather than keeping
-            concepts purely theoretical. My work spans{" "}
-            <span className="text-purple-200">
-              Python
-            </span>
-            , machine learning, deep learning, backend systems, databases,
-            APIs, and modern web interfaces.
+            {isTr ? "Kavramları yalnızca teoride tutmak yerine gerçek projeler geliştirerek öğrenmeyi tercih ediyorum. Çalışmalarım Python, makine öğrenmesi, derin öğrenme, backend sistemleri, veri tabanları, API'ler ve modern web arayüzlerini kapsıyor." : "I prefer learning by building real projects rather than keeping concepts purely theoretical. My work spans Python, machine learning, deep learning, backend systems, databases, APIs, and modern web interfaces."}
           </p>
 
           {/* Paragraph 3 */}
@@ -281,13 +268,7 @@ export default function AboutMe() {
               md:text-[21px]
             "
           >
-            What matters to me is not only making something work, but building
-            software that is{" "}
-            <span className="font-semibold text-white">
-              maintainable, useful, and ready to grow
-            </span>
-            . My current direction is centered around AI engineering, data
-            engineering, and Python development.
+            {isTr ? "Benim için önemli olan yalnızca çalışan bir ürün ortaya koymak değil; sürdürülebilir, faydalı ve büyümeye hazır yazılımlar geliştirmek. Güncel odağım yapay zekâ mühendisliği, veri mühendisliği ve Python geliştirme." : "What matters to me is not only making something work, but building software that is maintainable, useful, and ready to grow. My current direction is centered around AI engineering, data engineering, and Python development."}
           </p>
 
           {/* Bottom focus/status */}
@@ -328,7 +309,7 @@ export default function AboutMe() {
                   text-white
                 "
               >
-                Open to AI & Data roles
+                {isTr ? "Yapay zekâ ve veri rollerine açığım" : "Open to AI & Data roles"}
               </span>
             </div>
 
