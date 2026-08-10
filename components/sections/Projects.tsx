@@ -113,12 +113,12 @@ export default function Projects({ locale }: { locale: Locale }) {
             translate-y-10
             scale-[1.06]
 
-            bg-[url('/contact-bg.png')]
+            bg-[url('/contact-bg.webp')]
             bg-[length:100%_auto]
             bg-top
             bg-no-repeat
 
-            opacity-[0.23]
+            opacity-[0.36]
           "
         />
 

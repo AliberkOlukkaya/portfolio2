@@ -1,6 +1,7 @@
 "use client";
 
 import type { ProjectScreenshot } from "@/lib/content";
+import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 
 export default function ProjectImageStack({
@@ -125,12 +126,13 @@ export default function ProjectImageStack({
           ]
         "
       >
-        <img
+        <Image
           src={image.src}
           alt={image.alt ?? projectTitle}
           draggable={false}
-          loading="lazy"
-          decoding="async"
+          width={1536}
+          height={1024}
+          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 52vw, 720px"
           className="
             block
             h-auto

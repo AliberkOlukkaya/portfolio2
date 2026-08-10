@@ -221,7 +221,7 @@ export default function Navbar({ locale }: { locale: Locale }) {
           {/* AO */}
           <a
             href="#top"
-            aria-label="Back to top"
+            aria-label="AO — Back to top"
             className="
               shrink-0
 
@@ -263,6 +263,8 @@ export default function Navbar({ locale }: { locale: Locale }) {
                 <li key={link.href}>
                   <a
                     href={link.href}
+                    aria-current={isActive ? "page" : undefined}
+                    onClick={() => setActiveSection(link.activeIds[0])}
                     className={`
                       group relative block
                       py-3
@@ -478,9 +480,11 @@ export default function Navbar({ locale }: { locale: Locale }) {
                   <li key={link.href}>
                     <a
                       href={link.href}
-                      onClick={() =>
-                        setOpen(false)
-                      }
+                      aria-current={isActive ? "page" : undefined}
+                      onClick={() => {
+                        setActiveSection(link.activeIds[0]);
+                        setOpen(false);
+                      }}
                       className={`
                         relative block
                         rounded-2xl

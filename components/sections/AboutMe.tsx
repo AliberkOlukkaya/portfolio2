@@ -104,7 +104,7 @@ export default function AboutMe({ locale }: { locale: Locale }) {
                 rounded-[52px]
                 bg-[radial-gradient(circle_at_45%_50%,rgba(139,92,246,0.34),rgba(99,102,241,0.18)_38%,transparent_72%)]
                 blur-[60px]
-                opacity-95
+                opacity-75
               "
             />
 
@@ -116,9 +116,9 @@ export default function AboutMe({ locale }: { locale: Locale }) {
                 absolute -inset-[7px]
                 rounded-[40px]
                 bg-gradient-to-br
-                from-purple-400/35
-                via-violet-500/15
-                to-indigo-400/35
+                from-purple-400/28
+                via-violet-500/12
+                to-indigo-400/28
                 blur-lg
               "
             />
@@ -147,7 +147,7 @@ export default function AboutMe({ locale }: { locale: Locale }) {
                   alt="Aliberk Olukkaya"
                   width={950}
                   height={1188}
-                  priority
+                  sizes="(max-width: 1024px) 90vw, 540px"
                   className="
                     aspect-[4/5]
                     h-auto w-full

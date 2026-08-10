@@ -53,7 +53,7 @@ const config: Config = {
         line: "#241f3f",
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        sans: ["system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
         heading: ["var(--font-space-grotesk)", "'Space Grotesk'", "sans-serif"],
         body: ["var(--font-dm-sans)", "'DM Sans'", "sans-serif"],

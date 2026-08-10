@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import {
   ArrowRight,
   Download,
@@ -9,7 +15,6 @@ import {
   Linkedin,
   Sparkles,
 } from "lucide-react";
-import Hls from "hls.js";
 
 import AmbientBackground from "@/components/AmbientBackground";
 import { profile } from "@/lib/content";
@@ -30,7 +35,7 @@ const container = {
 
 const item = {
   hidden: {
-    opacity: 0,
+    opacity: 1,
     y: 28,
   },
 
@@ -47,33 +52,88 @@ const item = {
 
 export default function Hero({ locale }: { locale: Locale }) {
   const copy = dictionaries[locale].hero;
+  const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const rawContentY = useTransform(
+    scrollYProgress,
+    [0, 0.35, 1],
+    [0, -82, -275],
+  );
+  const rawContentScale = useTransform(
+    scrollYProgress,
+    [0, 0.38, 0.7, 1],
+    [1, 0.9, 1.04, 0.93],
+  );
+  const springConfig = {
+    stiffness: 90,
+    damping: 26,
+    mass: 0.65,
+    restDelta: 0.001,
+  };
+  const contentY = useSpring(rawContentY, springConfig);
+  const contentScale = useSpring(rawContentScale, springConfig);
 
   useEffect(() => {
     const video = videoRef.current;
+    let cancelled = false;
+    let idleId: number | undefined;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    let hls: { destroy: () => void } | undefined;
 
     if (!video) {
       return;
     }
 
-    if (Hls.isSupported()) {
-      const hls = new Hls();
+    const loadHls = async () => {
+      const { default: Hls } = await import("hls.js");
 
-      hls.loadSource(HLS_SRC);
-      hls.attachMedia(video);
+      if (cancelled) {
+        return;
+      }
 
-      return () => {
-        hls.destroy();
-      };
+      if (Hls.isSupported()) {
+        const instance = new Hls();
+        hls = instance;
+        instance.loadSource(HLS_SRC);
+        instance.attachMedia(video);
+        return;
+      }
+
+      if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        video.src = HLS_SRC;
+      }
+    };
+
+    if ("requestIdleCallback" in window) {
+      idleId = window.requestIdleCallback(loadHls, {
+        timeout: 1200,
+      });
+    } else {
+      timeoutId = setTimeout(loadHls, 350);
     }
 
-    if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = HLS_SRC;
-    }
+    return () => {
+      cancelled = true;
+      hls?.destroy();
+
+      if (idleId !== undefined) {
+        window.cancelIdleCallback(idleId);
+      }
+
+      if (timeoutId !== undefined) {
+        clearTimeout(timeoutId);
+      }
+    };
   }, []);
 
   return (
     <section
+      ref={sectionRef}
       id="top"
       className="
         relative isolate flex min-h-dvh
@@ -153,10 +213,19 @@ export default function Hero({ locale }: { locale: Locale }) {
         variants={container}
         initial="hidden"
         animate="visible"
+        style={
+          prefersReducedMotion
+            ? undefined
+            : {
+                y: contentY,
+                scale: contentScale,
+              }
+        }
         className="
           relative z-20
           flex w-full max-w-4xl
           flex-col items-center
+          will-change-transform
         "
       >
         {/* Intro */}

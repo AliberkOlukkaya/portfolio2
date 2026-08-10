@@ -1,13 +1,14 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import type { Project } from "@/lib/content";
 
-const projectIcons: Record<string, string> = {
-  "traffic-enforcement": "🚘",
-  phoenixdf: "📚",
-  "taskflow-ai": "🧠",
-  gamescope: "🎮",
+const projectLogos: Record<string, string> = {
+  "traffic-enforcement": "/projects/logos/traffic-enforcement-logo.png",
+  phoenixdf: "/projects/logos/phoenixdf-logo.png",
+  "taskflow-ai": "/projects/logos/taskflow-ai-logo.png",
+  gamescope: "/projects/logos/gamescope-logo.png",
 };
 
 type ProjectTabsProps = {
@@ -84,6 +85,7 @@ export default function ProjectTabs({
     >
       {projects.map((project, index) => {
         const isActive = project.id === activeId;
+        const logo = projectLogos[project.id];
 
         return (
           <button
@@ -147,7 +149,21 @@ export default function ProjectTabs({
                 }
               `}
             >
-              {projectIcons[project.id] ?? "✦"}
+              {logo ? (
+                <Image
+                  src={logo}
+                  alt=""
+                  width={28}
+                  height={28}
+                  className={`h-7 w-7 object-contain ${
+                    project.id === "gamescope"
+                      ? "rounded-md bg-[#f7f4ef] p-0.5"
+                      : ""
+                  }`}
+                />
+              ) : (
+                "✦"
+              )}
             </span>
 
             <span className="relative whitespace-nowrap">

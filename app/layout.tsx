@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Space_Grotesk, DM_Sans } from "next/font/google";
+import { JetBrains_Mono, Space_Grotesk, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
 
 const mono = JetBrains_Mono({
   subsets: ["latin"],
@@ -60,7 +54,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${mono.variable} ${spaceGrotesk.variable} ${dmSans.variable}`}
+      className={`${mono.variable} ${spaceGrotesk.variable} ${dmSans.variable}`}
     >
       <body className="antialiased">
         <Providers>{children}</Providers>

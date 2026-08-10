@@ -576,7 +576,7 @@ export default function Contact({ locale }: { locale: Locale }) {
 
               blur-[50px]
 
-              opacity-90
+              opacity-65
             "
           />
 
@@ -590,8 +590,8 @@ export default function Contact({ locale }: { locale: Locale }) {
 
               rounded-[34px]
 
-              border-2
-              border-white/40
+              border
+              border-white/25
 
               bg-[#090912]
 
@@ -613,7 +613,7 @@ export default function Contact({ locale }: { locale: Locale }) {
                 absolute
                 inset-0
 
-                bg-[url('/contact-bg.png')]
+                bg-[url('/contact-bg.webp')]
                 bg-cover
                 bg-center
                 bg-no-repeat
